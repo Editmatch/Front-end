@@ -5,6 +5,7 @@ import {  Route, Routes } from 'react-router-dom';
 import Home from './pages/home/home'; // Importe o componente Home
 import ProfileSelection from './pages/auth/profile-selection';
 import Login from './pages/auth/Login';
+import Projetos from './pages/dashboard/projects';
 function Rotas() {
     return (
             <Routes>
@@ -12,6 +13,7 @@ function Rotas() {
                 <Route path="/profile-selection" element={<ProfileSelection />} />
                 <Route path="/cadastro" element={<ProfileSelection />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/projetos" element={<Projetos />} />
             </Routes>
     );
 }
