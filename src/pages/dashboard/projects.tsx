@@ -1,9 +1,11 @@
 import React from 'react';
-import DashboardHeader from "../../ui/components/dashboard-header";
-import Header from "../../ui/components/header";
+import { Carousel, Row, Col } from 'react-bootstrap';
+import DashboardHeader from '../../ui/components/dashboard-header';
+import Header from '../../ui/components/header';
 import styled from 'styled-components';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import VideoCard from '../../ui/components/video-card';
+import ProjectsCount from '../../ui/components/projects-count';
 
 const CarouselContainer = styled.div`
     display: flex;
@@ -17,7 +19,7 @@ const VideoWrapper = styled.div`
 `;
 
 function Projetos() {
-    const mockVideos = [
+    const mock_projects = [
         {
             id: 1,
             title: "Video 1",
@@ -86,79 +88,94 @@ function Projetos() {
         }
     ];
 
+    const chunkArray = (arr:any, chunkSize:any) => {
+        const chunkedArray = [];
+        for (let i = 0; i < arr.length; i += chunkSize) {
+            chunkedArray.push(arr.slice(i, i + chunkSize));
+        }
+        return chunkedArray;
+    };
+    
+    const videosChuncks = chunkArray(mock_projects, 4);
     return (
         <div>
             <Header />
             <DashboardHeader />
             <div className="container">
-                <div className="row mt-4 m-5 text-center">
-                    <div className="col-md-3">
-
-                        <p>Projetos publicados</p>
-                        <div className="card text-center justify-center p-4">
-                            <p className="mt-3">10</p>
-                        </div>
-                    </div>
-
-                    <div className="col-12 col-md-3">
-                        <p>Em andamento</p>
-                        <div className="card text-center justify-center p-4">
-                            <p className="mt-3">10</p>
-                        </div>
-                    </div>
-
-                    <div className="col-12 col-md-3">
-                        <p>Concluidos</p>
-                        <div className="card text-center bg-dark justify-center p-4">
-                            <p className="mt-3 text-white">10</p>
-                        </div>
-                    </div>
-
-                    <div className="col-12 col-md-3">
-                        <p>Cancelados</p>
-                        <div className="card text-center bg-dark justify-center p-4">
-                            <p className="mt-3 text-white">10</p>
-                        </div>
-                    </div>
-                </div>
+                <ProjectsCount />
 
                 <div className="row">
-                    <p>Projetos de Vídeos</p>
+                    <p><b>Projetos de Vídeos</b></p>
                     <div className="col-md-12">
-                        <CarouselContainer>
-                            {mockVideos.map((video) => (
-                                <VideoWrapper key={video.id}>
-                                    <VideoCard title={video.title} price={video.price} imageUrl={video.imageUrl} />
-                                </VideoWrapper>
+                    <Carousel wrap>
+                            {videosChuncks.map((chunk, index) => (
+                                <Carousel.Item key={index}>
+                                    <Row>
+                                        {chunk.map((project:any) => (
+                                            <Col md={3} key={project.id}>
+                                               <div className="card">
+                                                    <img src={project.imageUrl} alt={project.title} />
+                                                    <h3>{project.title}</h3>
+                                                    <p>{project.price}</p>
+                                               </div>
+                                            </Col>
+                                        ))}
+                                    </Row>
+                                </Carousel.Item>
                             ))}
-                        </CarouselContainer>
+                        </Carousel>
                     </div>
                 </div>
 
-                <div className="row">
-                    <p>Em andamento</p>
-                    <CarouselContainer>
-                        {mockVideos.map((video) => (
-                            <VideoWrapper key={video.id}>
-                                <VideoCard title={video.title} price={video.price} imageUrl={video.imageUrl} />
-                            </VideoWrapper>
-                        ))}
-                    </CarouselContainer>
+                <div className="row mt-5">
+                    <p><b>Em andamento</b></p>
+                    <div className="col-md-12">
+                    <Carousel wrap>
+                            {videosChuncks.map((chunk, index) => (
+                                <Carousel.Item key={index}>
+                                    <Row>
+                                        {chunk.map((project:any) => (
+                                            <Col md={3} key={project.id}>
+                                               <div className="card">
+                                                    <img src={project.imageUrl} alt={project.title} />
+                                                    <h3>{project.title}</h3>
+                                                    <p>{project.price}</p>
+                                               </div>
+                                            </Col>
+                                        ))}
+                                    </Row>
+                                </Carousel.Item>
+                            ))}
+                        </Carousel>
+                    </div>
                 </div>
 
-                <div className="row">
-                    <p>Concluidos</p>
-                    <CarouselContainer>
-                        {mockVideos.map((video) => (
-                            <VideoWrapper key={video.id}>
-                                <VideoCard title={video.title} price={video.price} imageUrl={video.imageUrl} />
-                            </VideoWrapper>
-                        ))}
-                    </CarouselContainer>
+                <div className="row mt-5">
+                    <p><b>Concluídos</b></p>
+                    <div className="col-md-12">
+                    <Carousel wrap>
+                            {videosChuncks.map((chunk, index) => (
+                                <Carousel.Item key={index}>
+                                    <Row>
+                                        {chunk.map((project:any) => (
+                                            <Col md={3} key={project.id}>
+                                               <div className="card">
+                                                    <img src={project.imageUrl} alt={project.title} />
+                                                    <h3>{project.title}</h3>
+                                                    <p>{project.price}</p>
+                                               </div>
+                                            </Col>
+                                        ))}
+                                    </Row>
+                                </Carousel.Item>
+                            ))}
+                        </Carousel>
+                    </div>
                 </div>
+
+                {/* Repita o mesmo padrão para os outros carrosséis ("Em andamento" e "Concluídos") */}
             </div>
-        </div >
-
+        </div>
     );
 }
 
