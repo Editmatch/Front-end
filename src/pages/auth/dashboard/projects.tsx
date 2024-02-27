@@ -1,11 +1,13 @@
 import React from 'react';
+//Carousel
 import { Carousel, Row, Col } from 'react-bootstrap';
-import DashboardHeader from '../../ui/components/dashboard-header';
-import Header from '../../ui/components/header';
+import DashboardHeader from '../../../ui/components/dashboard-header';
+import Header from '../../../ui/components/header';
 import styled from 'styled-components';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import VideoCard from '../../ui/components/video-card';
-import ProjectsCount from '../../ui/components/projects-count';
+import VideoCard from '../../../ui/components/video-card';
+import ProjectsCount from '../../../ui/components/projects-count';
+// import axios from 'axios';
 
 const CarouselContainer = styled.div`
     display: flex;
@@ -19,6 +21,9 @@ const VideoWrapper = styled.div`
 `;
 
 function Projetos() {
+
+   // axios.get
+    //Mock para exibir os projetos sem bater no endpoint
     const mock_projects = [
         {
             id: 1,
@@ -88,6 +93,7 @@ function Projetos() {
         }
     ];
 
+    //Logica para o carousel
     const chunkArray = (arr:any, chunkSize:any) => {
         const chunkedArray = [];
         for (let i = 0; i < arr.length; i += chunkSize) {

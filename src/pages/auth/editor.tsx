@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import logo from '../../ui/images/logo.png';
-function Login() {
+function Editor() {
   return (
     <>
       <section className="vh-50 gradient-custom">
@@ -12,8 +12,12 @@ function Login() {
 
                   <div className="mb-md-5 mt-md-4 pb-5">
 
-                    <h2 className="fw-bold mb-2 text-uppercase"><img src={logo} alt="" /></h2>
-                    <p>Insira seu email e senha para acessar</p>
+                    <h2 className="fw-bold mb-5 text-uppercase"><img src={logo} alt="" /></h2>
+                    <p>Insira suas informacões para realizar o cadastro.</p>
+
+                    <div className="form form-dark mb-4">
+                      <input type="name" id="typeNameX" className="form-control form-control-md" placeholder='Nome*' />
+                    </div>
 
                     <div className="form form-dark mb-4">
                       <input type="email" id="typeEmailX" className="form-control form-control-md" placeholder='Email*' />
@@ -22,21 +26,18 @@ function Login() {
                     <div className="form-outline form-dark mb-4">
                       <input type="password" id="typePasswordX" className="form-control form-control-md" placeholder='Senha*' />
                     </div>
-                    
-                    <div className="form form-dark mb-4">
-                      <input type="email" id="typeEmailX" className="form-control form-control-md" placeholder='Email*' />
-                    </div>
 
                     <div className="form-outline form-dark mb-4">
-                      <input type="password" id="typePasswordX" className="form-control form-control-md" placeholder='Senha*' />
+                      <input type="password" id="typePasswordX" className="form-control form-control-md" placeholder='Confirme a senha*' />
                     </div>
+
                     <button className="btn btn-dark btn-lg px-5" type="submit">Continuar</button>
 
                   </div>
 
                   <div>
                     <p className="small mb-5 pb-lg-2"><a className="text-dark-50" href="#!">Esqueceu sua senha?</a></p>
-                    <p className="mb-0">Não tem uma conta? <a href="#!" className="text-dark-50 fw-bold">Cadastre-se</a>
+                    <p className="mb-0">Ja tem uma conta? <Link to="#!" className="text-dark-50 fw-bold">Logar</Link>
                     </p>
                   </div>
 
@@ -50,4 +51,4 @@ function Login() {
   )
 }
 
-export default Login;
+export default Editor;

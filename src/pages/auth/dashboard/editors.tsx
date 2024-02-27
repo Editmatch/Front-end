@@ -1,8 +1,8 @@
 import React from 'react';
 import { Carousel, Row, Col } from 'react-bootstrap';
-import DashboardHeader from '../../ui/components/dashboard-header';
-import Header from '../../ui/components/header';
-import ProjectsCount from '../../ui/components/projects-count';
+import DashboardHeader from '../../../ui/components/dashboard-header';
+import Header from '../../../ui/components/header';
+import ProjectsCount from '../../../ui/components/projects-count';
 
 function Editores() {
     const editorsMock = [{

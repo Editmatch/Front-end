@@ -11,8 +11,8 @@ import {
     MDBCardHeader,
     MDBInputGroup,
 } from "mdb-react-ui-kit";
-import Header from "../../ui/components/header";
-import DashboardHeader from "../../ui/components/dashboard-header";
+import Header from "../../../ui/components/header";
+import DashboardHeader from "../../../ui/components/dashboard-header";
 
 function Chat() {
 

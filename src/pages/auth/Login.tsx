@@ -1,8 +1,60 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../ui/images/logo.png';
+import { useState } from 'react';
+import styled from 'styled-components';
+import Backbutton from '../../ui/components/back-button';
 function Login() {
+
+  // function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
+  //const url = "http://localhost:8080/usuarios/login";
+  /*   const logar = (email, password) => {
+ 
+         axios.post(url, {
+             email: email,
+             senha: password
+         }, {
+             headers: {
+                 'Content-Type': 'application/json'
+             }
+         })
+             .then(response => {
+                 if (response.status === 200 && response.data?.token) {
+                     sessionStorage.setItem('authToken', response.data.token);
+                     sessionStorage.setItem('usuario', response.data.nome);
+                     sessionStorage.setItem('userId', response.data.userId);
+                     sessionStorage.setItem('userEmail', response.data.email);
+ 
+ 
+                     alert('Login realizado com sucesso!')
+                     if (response.data.editor) {
+                         sessionStorage.setItem('editor', response.data.editor);
+                         navigate('/exposicao-pedidos')
+                     } else {
+                         navigate('/exposicao-editor')
+                     }
+ 
+ 
+                 } else {
+                     throw new Error('Ops! Ocorreu um erro interno.');
+                 }
+             })
+             .catch(error => {
+                 toast.error(error.message);
+             });
+     };
+     */
+  const LinkStyled = styled(Link)`
+     text-decoration: none;
+     color: black;
+     }`;
+
   return (
     <>
+     <Backbutton/>
       <section className="vh-50 gradient-custom">
         <div className="container py-5 h-100">
           <div className="row d-flex justify-content-center align-items-center h-100">
@@ -25,7 +77,7 @@ function Login() {
                     <button className="btn btn-dark btn-lg px-5" type="submit">Continuar</button>
 
                   </div>
-                  
+
                   <div>
                     <p className="small mb-5 pb-lg-2"><a className="text-dark-50" href="#!">Esqueceu sua senha?</a></p>
                     <p className="mb-0">Não tem uma conta? <a href="#!" className="text-dark-50 fw-bold">Cadastre-se</a>
