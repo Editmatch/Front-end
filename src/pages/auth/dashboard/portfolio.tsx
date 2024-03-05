@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import DashboardHeader from "../../../ui/components/dashboard-header";
 import Header from "../../../ui/components/header";
+import Avaliacao from "../../../ui/components/stars";
 
 export default function Portfolio() {
 
@@ -32,6 +33,8 @@ export default function Portfolio() {
         align-items: center;
         `;
 
+        
+
     return (
         <div>
             <Header />
@@ -45,7 +48,7 @@ export default function Portfolio() {
                         <h5 className="">Fulano de tal</h5>
                         <text>Editor</text>
                         <div className="row mt-5">
-                            <span><img src="/" alt="avaliacao" /> + de 400 projetos concluidos</span>
+                            <Avaliacao/>
                         </div>
                         <div className="row mt-5">
                             <span>Melhor editor do Brasil</span>

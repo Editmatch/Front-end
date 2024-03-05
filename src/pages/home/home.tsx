@@ -2,11 +2,27 @@ import styled from 'styled-components';
 import Header from '../../ui/components/header';
 import Footer from '../../ui/components/footer';
 import { Link } from 'react-router-dom';
+import backgroundImage from '../../ui/images/wallpaper.jpg'
+
 
 const Fundo = styled.div`
-  background-color: #737375;
+  position: relative;
   min-height: 500px;
-`;
+  background-repeat: no-repeat;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-image: url(${backgroundImage});
+    filter: blur(5px);
+    z-index: -1;
+  }`
+
 const Fundo2 = styled.div`
   background-color: #F2F1F1;
   min-height: 100px;
@@ -16,7 +32,7 @@ const Fundo2 = styled.div`
 const Linha = styled.hr`
     border: 1px solid #ccc;
     width: 50%;
-    margin: 0 auto; /* Adicionando margem automática para alinhar ao centro */
+    margin: 0 auto; 
     margin-top: 20px;
     margin-bottom: 20px;
 `;
@@ -27,23 +43,31 @@ const CenterDiv = styled.div`
   justify-content: center;
 `;
 
+const FundoContent = styled.div`
+  position: relative;
+  z-index: 1; /* Colocando o conteúdo acima do pseudo-elemento */
+`;
+
 function Home() {
   return (
     <div>
       <Header />
-      <Fundo>
-        <div className="row mt-5">
-          <div className="col-12 col-md-12 mt-5">
-            <h2 className="text-center text-white mt-5">Encontre os melhores profissionais para edição de  vídeos.</h2>
-          </div>
-          <Linha />
-        </div>
 
-        <CenterDiv className="mt-5">
-          <Link to="/profile-selection" className='bg-white btn me-5'>Publicar projeto</Link>
-          <Link to="/profile-selection" className='btn btn-outline-light'>Sou Freelancer</Link>
-        </CenterDiv>
-      </Fundo >
+      <Fundo>
+        <FundoContent>
+          <div className="row mt-5">
+            <div className="col-12 col-md-12 mt-5">
+              <h2 className="text-center text-white mt-5">Encontre os melhores profissionais para edição de vídeos.</h2>
+            </div>
+            <Linha />
+          </div>
+
+          <CenterDiv className="mt-5">
+            <Link to="/profile-selection" className='bg-white btn me-5'>Publicar projeto</Link>
+            <Link to="/profile-selection" className='btn btn-outline-light'>Sou Freelancer</Link>
+          </CenterDiv>
+        </FundoContent>
+      </Fundo>
 
       <div className="row">
         <Fundo2>

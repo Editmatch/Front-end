@@ -3,19 +3,27 @@ import logo from '../../ui/images/logo.png';
 import { useState } from 'react';
 import styled from 'styled-components';
 import Backbutton from '../../ui/components/back-button';
+import axios from 'axios';
 function Login() {
 
-  // function Login() {
+  interface Usuario {
+    email: string;
+    password: string;
+  }
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  //const url = "http://localhost:8080/usuarios/login";
-  /*   const logar = (email, password) => {
+  const url:string = "http://localhost:8080/usuarios/login";
+     
+  
+  const logar = (user:Usuario) => {
  
+    console.log('email', user.email , 'senha', user.password);
          axios.post(url, {
-             email: email,
-             senha: password
+             email: user.email,
+             senha: user.password
          }, {
              headers: {
                  'Content-Type': 'application/json'
@@ -30,23 +38,15 @@ function Login() {
  
  
                      alert('Login realizado com sucesso!')
-                     if (response.data.editor) {
-                         sessionStorage.setItem('editor', response.data.editor);
-                         navigate('/exposicao-pedidos')
-                     } else {
-                         navigate('/exposicao-editor')
-                     }
- 
  
                  } else {
                      throw new Error('Ops! Ocorreu um erro interno.');
                  }
              })
              .catch(error => {
-                 toast.error(error.message);
+              console.log(error)
              });
      };
-     */
   const LinkStyled = styled(Link)`
      text-decoration: none;
      color: black;
@@ -62,21 +62,17 @@ function Login() {
               <div className="card bg-white text-dark">
                 <div className="card-body p-5 text-center">
 
-                  <div className="mb-md-5 mt-md-4 pb-5">
-
-                    <h2 className="fw-bold mb-2 text-uppercase"><img src={logo} alt="" /></h2>
-                    <p>Insira seu email e senha para acessar</p>
-
-                    <div className="form form-dark mb-4">
-                      <input type="email" id="typeEmailX" className="form-control form-control-md" placeholder='Email*' />
+                    <div className="mb-md-5 mt-md-4 pb-5">
+                      <h2 className="fw-bold mb-2 text-uppercase"><img src={logo} alt="" /></h2>
+                      <p>Insira seu email e senha para acessar</p>
+                      <div className="form form-dark mb-4">
+                        <input type="email" id="typeEmailX" className="form-control form-control-md" placeholder='Email*' onChange={(event) => setEmail(event.target.value)} />
+                      </div>
+                      <div className="form-outline form-dark mb-4">
+                        <input type="password" id="typePasswordX" className="form-control form-control-md" placeholder='Senha*' onChange={(event) => setPassword(event.target.value)} />
+                      </div>
+                      <button className="btn btn-dark btn-lg px-5" onClick={(event) => logar({ email, password })}>Continuar</button>
                     </div>
-
-                    <div className="form-outline form-dark mb-4">
-                      <input type="password" id="typePasswordX" className="form-control form-control-md" placeholder='Senha*' />
-                    </div>
-                    <button className="btn btn-dark btn-lg px-5" type="submit">Continuar</button>
-
-                  </div>
 
                   <div>
                     <p className="small mb-5 pb-lg-2"><a className="text-dark-50" href="#!">Esqueceu sua senha?</a></p>
