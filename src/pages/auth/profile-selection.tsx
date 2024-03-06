@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const Card = styled.div`
@@ -15,17 +15,26 @@ const Card = styled.div`
         transform: scale(1.03);
     }`;
 
-const LinkStyled = styled(Link)`
+const LinkStyled = styled.div`
     text-decoration: none;
     color: black;
     }`;
 
 function ProfileSelection() {
+    const navigate = useNavigate();
+
+    const handleClick = (type:any) => {
+        if (type === 'editor') {
+            navigate('/registro', { state: { rota: 'http://localhost:8080/editores' } });
+        } else {
+            navigate('/registro', { state: { rota: 'http://localhost:8080/clientes' } });
+        }
+    };
 
     return (
         <>
             <div className="row">
-                <LinkStyled to="/" className="m-2">Voltar</LinkStyled>
+                <LinkStyled className="m-2">Voltar</LinkStyled>
             </div>
             <div className="container">
                 <div className="row mb-5">
@@ -36,7 +45,7 @@ function ProfileSelection() {
                     <div className="row  mt-5">
                         <div className="col-md-6">
                             <Card>
-                                <LinkStyled to="/produtor">
+                                <LinkStyled onClick={() => handleClick('produtor')}>
                                     <img src="" alt="" />
                                     <h5>Sou Produtor de Videos</h5>
                                     <p>Encontrar um editor!</p>
@@ -46,7 +55,7 @@ function ProfileSelection() {
 
                         <div className="col-md-6">
                             <Card>
-                                <LinkStyled to='/editor'>
+                                <LinkStyled onClick={() => handleClick('editor')}>
                                     <img src="" alt="" />
                                     <h5>Sou Editor de Videos</h5>
                                     <p >Encontrar um projeto!</p>

@@ -8,19 +8,18 @@ import Login from './pages/auth/Login';
 import Projetos from './pages/auth/dashboard/projects';
 import Editores from './pages/auth/dashboard/editors';
 import Chat from './pages/auth/dashboard/chat';
-import Registro from './pages/auth/editor';
-import Editor from './pages/auth/editor';
+import Registro from './pages/auth/register';
 import Portfolio from './pages/auth/dashboard/portfolio';
+
 function Rotas() {
     return (
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/profile-selection" element={<ProfileSelection />} />
-                <Route path="/cadastro" element={<Registro/>} />
+                <Route path="/selecionar-perfil" element={<ProfileSelection />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/projetos" element={<Projetos />} />
                 <Route path="/editores" element={<Editores />} />
-                <Route path="/editor" element={<Editor />} />
+                <Route path="/registro" element={<Registro />} />
                 <Route path="/chat" element={<Chat />} />
                 <Route path="/portfolio" element={<Portfolio />} />
             </Routes>

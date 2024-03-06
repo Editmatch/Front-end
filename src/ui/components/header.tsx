@@ -46,8 +46,8 @@ function Header() {
                     <div className="col-6 col-md-6 text-end">
                         <div className="">
                             <Link to="/login" className="btn text-gray">Login</Link>
-                            <Link to="/profile-selection" className="btn text-gray">Cadastrar</Link>
-                            <Link to="/profile-selection" className="btn btn-dark">Publicar projeto</Link>
+                            <Link to="/selecionar-perfil" className="btn text-gray">Cadastrar</Link>
+                            <Link to="/selecionar-perfil" className="btn btn-dark">Publicar projeto</Link>
                         </div>
                     </div>
                 </div>
