@@ -38,6 +38,7 @@ function Login() {
  
  
                      alert('Login realizado com sucesso!')
+                     navigate('/projetos')
  
                  } else {
                      throw new Error('Ops! Ocorreu um erro interno.');
