@@ -7,6 +7,7 @@ import ProfileSelection from './pages/auth/profile-selection';
 import Login from './pages/auth/Login';
 import Projetos from './pages/auth/dashboard/projects';
 import Editores from './pages/auth/dashboard/editors';
+import Perfil from './pages/auth/dashboard/perfil';
 import Chat from './pages/auth/dashboard/chat';
 import Registro from './pages/auth/register';
 import Portfolio from './pages/auth/dashboard/portfolio';
@@ -21,8 +22,9 @@ function Rotas() {
 
                 {/* /* Rotas privadas */ }
                 <Route path="/editores" element={<Editores />} />
+                <Route path="/perfil" element={<Perfil />} />
                 <Route path="/chat" element={<Chat />} />
-                <Route path="/portfolio" element={<Portfolio />} />
+                <Route path="/portfolio/:id" element={<Portfolio />} />
                 <Route path="/projetos" element={<Projetos />} />
             </Routes>
     );

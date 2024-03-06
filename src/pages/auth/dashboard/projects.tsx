@@ -8,6 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import VideoCard from '../../../ui/components/video-card';
 import ProjectsCount from '../../../ui/components/projects-count';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 // import axios from 'axios';
 
 
@@ -28,17 +29,17 @@ function Projetos() {
 
     // axios.get
 
-    const [orders, setOrders] = useState([]);
+    const [projects, setProjects] = useState([]);
 
     const userId = sessionStorage.getItem('userId');
 
-    const fetchOrders = () => {
+    const fetchProjects = () => {
         axios.get(`http://localhost:8080/orders//order-client?id=${userId}`, {
             headers: {
                 Authorization: `Bearer ${sessionStorage.getItem('authToken')}`
             }
         }).then((response) => {
-            setOrders(response.data)
+            setProjects(response.data)
             console.log(response)
         }).catch((error) => {
             console.log(error)
@@ -46,10 +47,10 @@ function Projetos() {
     }
 
     useEffect(() => {
-        fetchOrders();
+        fetchProjects();
 
         const intervalId = setInterval(() => {
-            fetchOrders();
+            fetchProjects();
         }, 10000);
 
         return () => clearInterval(intervalId);
@@ -134,7 +135,7 @@ function Projetos() {
         return chunkedArray;
     };
 
-    const videosChuncks = chunkArray(orders, 4);
+    const videosChuncks = chunkArray(projects, 4);
     return (
         <div>
             <Header />
@@ -142,85 +143,98 @@ function Projetos() {
             <div className="container">
                 <ProjectsCount />
 
-                <div className="row">
-                    <p><b>Projetos de Vídeos</b></p>
-                    <div className="col-md-12">
-                        <CarouselContainer>
-                            <Carousel wrap={true} controls={true}>
-                                {videosChuncks.map((chunk, index) => (
-                                    <Carousel.Item key={index}>
-                                        <Row>
-                                            {chunk.map((project: any) => (
-                                                <Col md={3} key={project.id}>
-                                                    <div className="card">
-                                                        <img src={project.imageUrl} alt={project.title} />
-                                                        <h3>{project.title}</h3>
-                                                        <p>{project.price}</p>
-                                                    </div>
-                                                </Col>
-                                            ))}
-                                        </Row>
-                                    </Carousel.Item>
-                                ))}
-                            </Carousel>
-                        </CarouselContainer>
+                {projects.length > 0 ? (
+                    <>
+                        <div className="row">
+                            <p><b>Projetos de Vídeos</b></p>
+                            <div className="col-md-12">
+                                <CarouselContainer>
+                                    <Carousel wrap={true} controls={true}>
+                                        {videosChuncks.map((chunk, index) => (
+                                            <Carousel.Item key={index}>
+                                                <Row>
+                                                    {chunk.map((project: any) => (
+                                                        <Col md={3} key={project.id}>
+                                                            <div className="card">
+                                                                <img src={project.imageUrl} alt={project.title} />
+                                                                <h3>{project.title}</h3>
+                                                                <p>{project.price}</p>
+                                                            </div>
+                                                        </Col>
+                                                    ))}
+                                                </Row>
+                                            </Carousel.Item>
+                                        ))}
+                                    </Carousel>
+                                </CarouselContainer>
+                            </div>
+                        </div>
+
+                        <div className="row mt-5">
+                            <p><b>Em andamento</b></p>
+                            <div className="col-md-12">
+                                <CarouselContainer>
+                                    <Carousel wrap={false} controls={false}>
+                                        {videosChuncks.map((chunk, index) => (
+                                            <Carousel.Item key={index}>
+                                                <Row>
+                                                    {chunk.map((project: any) => (
+                                                        <Col md={3} key={project.id}>
+                                                            <div className="card">
+                                                                <img src={project.imageUrl} alt={project.title} />
+                                                                <h3>{project.title}</h3>
+                                                                <p>{project.price}</p>
+                                                            </div>
+                                                        </Col>
+                                                    ))}
+                                                </Row>
+                                            </Carousel.Item>
+                                        ))}
+                                    </Carousel>
+                                </CarouselContainer>
+                            </div>
+                        </div>
+
+                        <div className="row mt-5">
+                            <p><b>Concluídos</b></p>
+                            <div className="col-md-12">
+                                <CarouselContainer>
+                                    <Carousel wrap={false} controls={false}>
+                                        {videosChuncks.map((chunk, index) => (
+                                            <Carousel.Item key={index}>
+                                                <Row>
+                                                    {chunk.map((project: any) => (
+                                                        <Col md={3} key={project.id}>
+                                                            <div className="card">
+                                                                <img src={project.imageUrl} alt={project.title} />
+                                                                <h3>{project.title}</h3>
+                                                                <p>{project.price}</p>
+                                                            </div>
+                                                        </Col>
+                                                    ))}
+                                                </Row>
+                                            </Carousel.Item>
+                                        ))}
+                                    </Carousel>
+                                </CarouselContainer>
+                            </div>
+                        </div>
+                    </>
+                ) : (
+                    <div className="row">
+                        <div className="col-md-12">
+                            <div className="card">
+                                <div className="card-body text-center">
+                                    <h5 className="card-title">Nenhum projeto encontrado</h5>
+                                    <p className="card-text">Não há projetos disponíveis</p>
+                                    <Link to="/projeto" className="btn btn-dark" >Publicar projeto</Link>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-
-                <div className="row mt-5">
-                    <p><b>Em andamento</b></p>
-                    <div className="col-md-12">
-                        <CarouselContainer>
-                            <Carousel wrap={false} controls={false}>
-                                {videosChuncks.map((chunk, index) => (
-                                    <Carousel.Item key={index}>
-                                        <Row>
-                                            {chunk.map((project: any) => (
-                                                <Col md={3} key={project.id}>
-                                                    <div className="card">
-                                                        <img src={project.imageUrl} alt={project.title} />
-                                                        <h3>{project.title}</h3>
-                                                        <p>{project.price}</p>
-                                                    </div>
-                                                </Col>
-                                            ))}
-                                        </Row>
-                                    </Carousel.Item>
-                                ))}
-                            </Carousel>
-                        </CarouselContainer>
-                    </div>
-                </div>
-
-                <div className="row mt-5">
-                    <p><b>Concluídos</b></p>
-                    <div className="col-md-12">
-                        <CarouselContainer>
-                            <Carousel wrap={false} controls={false}>
-                                {videosChuncks.map((chunk, index) => (
-                                    <Carousel.Item key={index}>
-                                        <Row>
-                                            {chunk.map((project: any) => (
-                                                <Col md={3} key={project.id}>
-                                                    <div className="card">
-                                                        <img src={project.imageUrl} alt={project.title} />
-                                                        <h3>{project.title}</h3>
-                                                        <p>{project.price}</p>
-                                                    </div>
-                                                </Col>
-                                            ))}
-                                        </Row>
-                                    </Carousel.Item>
-                                ))}
-                            </Carousel>
-                        </CarouselContainer>
-                    </div>
-                </div>
-
-
+                )}
             </div>
         </div>
     );
 }
-
 export default Projetos;

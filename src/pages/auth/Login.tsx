@@ -35,6 +35,7 @@ function Login() {
                      sessionStorage.setItem('usuario', response.data.nome);
                      sessionStorage.setItem('userId', response.data.userId);
                      sessionStorage.setItem('userEmail', response.data.email);
+                     sessionStorage.setItem('isEditor', response.data.isEditor);
  
  
                      alert('Login realizado com sucesso!')
