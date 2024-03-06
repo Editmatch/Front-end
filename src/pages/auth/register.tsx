@@ -23,6 +23,7 @@ function Registro() {
   const { rota } = useLocation().state;
   const endpoint = rota;
 
+  console.log(endpoint)
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -31,12 +32,6 @@ function Registro() {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (step === 1) {
-      // Se for a primeira etapa, avance para a próxima etapa
-      setStep(2);
-      return;
-    }
-
     if (password !== confirmPassword) {
       alert('As senhas não coincidem');
       setFormData({ ...formData, password: '', confirmPassword: '' });
@@ -44,6 +39,7 @@ function Registro() {
     }
 
     try {
+
       const skillsArray = Array.isArray(skills) ? skills : [skills];
       const trimmedSkills = skillsArray.length >= 1 ? skillsArray.map((skill: string) => skill.trim()) : null;
 
@@ -52,9 +48,9 @@ function Registro() {
         last_name: lastName,
         email,
         password,
-        chavePix: pixKey,
-        skills: trimmedSkills,
-        valorHora: hourValue,
+        chavePix: formData.pixKey.length >= 1 ? pixKey : "",
+        skills: formData.skills.length >= 1 ? trimmedSkills : null,
+        valorHora: formData.hourValue.length >= 1 ? hourValue : null,
         isEditor: endpoint === 'http://localhost:8080/editores',
       });
 
@@ -142,10 +138,32 @@ function Registro() {
                             placeholder="Confirme a senha*"
                           />
                         </div>
+                        {rota === 'http://localhost:8080/clientes' && (
 
-                        <button className="btn btn-dark btn-lg px-5" type="submit">
-                          Continuar
-                        </button>
+                          <div className="form-outline form-dark mb-4">
+                            <input
+                              type="text"
+                              name="pixKey"
+                              value={pixKey}
+                              onChange={handleChange}
+                              className="form-control form-control-md"
+                              placeholder="Chave Pix*"
+                            />
+                          </div>
+                        )}
+
+                        {rota !== 'http://localhost:8080/clientes' && (
+                          <button className="btn btn-dark btn-lg px-5" onClick={() => setStep(2)}>
+                            Continuar
+                          </button>
+                        )}
+
+                        {rota === 'http://localhost:8080/clientes' && (
+                          <button className="btn btn-dark btn-lg px-5" type="submit">
+                            Concluir Cadastro
+                          </button>
+                        )}
+
                       </form>
                     )}
 

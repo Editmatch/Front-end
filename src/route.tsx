@@ -17,11 +17,13 @@ function Rotas() {
                 <Route path="/" element={<Home />} />
                 <Route path="/selecionar-perfil" element={<ProfileSelection />} />
                 <Route path="/login" element={<Login />} />
-                <Route path="/projetos" element={<Projetos />} />
-                <Route path="/editores" element={<Editores />} />
                 <Route path="/registro" element={<Registro />} />
+
+                {/* /* Rotas privadas */ }
+                <Route path="/editores" element={<Editores />} />
                 <Route path="/chat" element={<Chat />} />
                 <Route path="/portfolio" element={<Portfolio />} />
+                <Route path="/projetos" element={<Projetos />} />
             </Routes>
     );
 }

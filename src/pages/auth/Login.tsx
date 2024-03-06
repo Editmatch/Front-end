@@ -77,7 +77,7 @@ function Login() {
 
                   <div>
                     <p className="small mb-5 pb-lg-2"><a className="text-dark-50" href="#!">Esqueceu sua senha?</a></p>
-                    <p className="mb-0">Não tem uma conta? <a href="#!" className="text-dark-50 fw-bold">Cadastre-se</a>
+                    <p className="mb-0">Não tem uma conta? <Link to="/selecionar-perfil" className="text-dark-50 fw-bold">Cadastre-se</Link>
                     </p>
                   </div>
 
