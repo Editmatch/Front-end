@@ -3,40 +3,46 @@ import DashboardHeader from "../../../ui/components/dashboard-header";
 import Header from "../../../ui/components/header";
 import Avaliacao from "../../../ui/components/stars";
 import { useEffect, useState } from "react";
-import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
-import axios from "axios";
 
 export default function Portfolio() {
 
     const navigate = useNavigate();
-
     const [perfil, setPerfil] = useState();
-
-    const [videos, setVideos] = useState([])
-
+    const [videos, setVideos] = useState([]);
     const { id } = useParams();
 
-    // useEffect(() => {
-    //     axios
-    //         .get(`http://localhost:8080/portfolios/${id}`, {
-    //             headers: {
-    //                 'Authorization': 'Bearer ' + sessionStorage.getItem('authToken'),
-    //                 'Content-Type': 'application/json',
-    //             },
-    //         })
-    //         .then((response:any) => {
-    //             console.log(response.data);
-    //             setPerfil(response.data);
-    //             setVideos(response.data.videos);
-    //         })
-    //         .catch((error) => {
-    //             console.error('Erro ao carregar o portfolio:', error);
-    //             navigate('/editores');
-    //         });
-    // }, [id, Navigate]); 
+    useEffect(() => {
+        axios
+            .get(`http://localhost:8080/portfolios/${id}`, {
+                headers: {
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('authToken'),
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then((response) => {
+                console.log(response.data);
+                setPerfil(response.data);
 
+                // Processa os links dos vídeos do YouTube
+                if(response.data.linkYtVideoId){
+                    const videoIds = response.data.linkYtVideoId.map((link: string) => {
+                        const match = link.match(/(?:\?v=|\/embed\/|\.be\/)([\w-]{11})/);
+                        return match ? match[1] : null;
+                    }).filter((videoId: string | null) => videoId !== null);
+    
+                    setVideos(videoIds);
+                }
+                
+            })
+            .catch((error) => {
+                console.error('Erro ao carregar o portfolio:', error);
+                navigate('/editores');
+            });
+    }, [id, navigate]);
 
 
     const Imagem = styled.img`
@@ -44,30 +50,7 @@ export default function Portfolio() {
         width: 250px;
         height: 250px;
         margin: 10px;
-        `;
-
-    const Button = styled.button`
-        background-color: #000;
-        color: #fff;
-        border: none;
-        padding: 12px 5px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 12px;
-        margin: 4px 2px;
-        cursor: pointer;
-        border-radius: 8px;
-        transition-duration: 0.4s;
-        `;
-
-    const Centralizar = styled.div`
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        `;
-
-
+    `;
 
     return (
         <div>
@@ -80,7 +63,7 @@ export default function Portfolio() {
                     </div>
                     <div className="col-md-4 mt-5  m-3 ">
                         <h5 className="">Fulano de tal</h5>
-                        <text>Editor</text>
+                        <span>Editor</span>
                         <div className="row mt-5">
                             <Avaliacao />
                         </div>
@@ -109,27 +92,35 @@ export default function Portfolio() {
                     }
 
 
+                    {videos.length === 0 &&
+                        <div className="col-md-12">
+                            <p>Nenhum vídeo editado ainda</p>
+                        </div>
+                    }
                     <div className="row">
-                        <div className="col-md-3">
-                            <div className="card">
-                                {/* TODO logica para exibir todos os videos utilizando o "const [videos,setVideos]" */}
+                        {videos.map(videoId => (
+                            <div className="col-md-3" key={videoId}>
                                 <Card style={{ width: '18rem' }}>
-                                    <Card.Img variant="top" src="holder.js/100px180?text=Image cap" />
+                                    <a href={`https://www.youtube.com/watch?v=${videoId}`} target="_blank" rel="noopener noreferrer">
+                                        <Card.Img variant="top" src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`} />
+                                    </a>
                                     <Card.Body>
-                                        <Card.Title>Video 1</Card.Title>
+                                        <Card.Title>Video Title</Card.Title>
                                         <Card.Text>
-                                            Video editado com sony vegas pro 18
+                                            {/* Aqui você pode adicionar uma descrição do vídeo, se desejar */}
                                         </Card.Text>
                                     </Card.Body>
                                     <ListGroup className="list-group-flush">
                                         <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
                                     </ListGroup>
                                     <Card.Body className="text-center">
-                                        <Card.Link href="#">Fazer download</Card.Link>
+                                        <Card.Link href={`https://www.youtube.com/watch?v=${videoId}`} target="_blank" rel="noopener noreferrer">Assistir</Card.Link>
+                                        {/* Aqui está o link de download do vídeo */}
+                                        <Card.Link href={`https://www.youtube.com/watch?v=${videoId}`} target="_blank" rel="noopener noreferrer">Download</Card.Link>
                                     </Card.Body>
                                 </Card>
                             </div>
-                        </div>
+                        ))}
                     </div>
                 </div>
             </div>
