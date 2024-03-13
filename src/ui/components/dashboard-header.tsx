@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import logo from '../images/logo.png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
 function DashboardHeader() {
+    
+    const navigate = useNavigate();
+
     const [showModal, setShowModal] = useState(false);
 
     const handleClose = () => setShowModal(false);
@@ -14,6 +17,7 @@ function DashboardHeader() {
     const handleLogout = () => {
         sessionStorage.clear();
         handleClose();
+        navigate('/login')
     };
 
     return (
@@ -28,6 +32,9 @@ function DashboardHeader() {
                 <li className="nav-item">
                     <Link className="nav-link text-white" to="/editores">Freelancers</Link>
                 </li>   
+                <li className="nav-item">
+                    <Link className="nav-link text-white" to="/produtores">Produtores</Link>
+                </li>
                 <li className="nav-item">
                     <Link className="nav-link text-white" to="/perfil">Perfil</Link>
                 </li>

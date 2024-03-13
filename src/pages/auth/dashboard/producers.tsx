@@ -5,8 +5,9 @@ import Header from '../../../ui/components/header';
 import styled from 'styled-components';
 import axios from 'axios';
 import Order from '../../../ui/components/order';
+import { Link } from 'react-router-dom';
 
-function Projetos() {
+function Produtores() {
     const CarouselContainer = styled.div`
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
@@ -19,7 +20,7 @@ function Projetos() {
     const userId = sessionStorage.getItem('userId');
 
     const fetchProjects = () => {
-        axios.get(`http://localhost:8080/orders/order-client?id=${userId}`, {
+        axios.get(`http://localhost:8080/orders`, {
             headers: {
                 Authorization: `Bearer ${sessionStorage.getItem('authToken')}`
             }
@@ -91,6 +92,12 @@ function Projetos() {
     font-size: 12px;
 `;
 
+const LinkStylled = styled(Link)`
+    text-decoration: none;
+    color: black;
+`;
+
+
     return (
         <div>
             <Header />
@@ -100,11 +107,7 @@ function Projetos() {
                     <>
                         <div className="row mt-5">
                             <div className="col-md-6">
-                                <h5><b>Projetos de Vídeos</b></h5>
-                            </div>
-
-                            <div className="col-md-6 d-flex justify-content-end"> {/* Alteração feita aqui */}
-                                <Button onClick={handleModalShow} className="btn btn-dark">Publicar projeto</Button>
+                                <h5><b>Videos disponiveis</b></h5>
                             </div>
 
                             <div className="col-md-12 mt-5">
@@ -115,17 +118,19 @@ function Projetos() {
                                                 <Row>
                                                     {chunk.map((project: any) => (
                                                         <Col md={3} key={project.orderId}>
-                                                            <div>
-                                                                <CardContainer>
-                                                                    <CardTitle>{project.title}</CardTitle>
-                                                                    <CardDescription>{project.desc}</CardDescription>
-                                                                    <CardSkills>
-                                                                        {project.skills.split(',').map((skill: string, index: number) => (
-                                                                            <span key={index}>{skill.trim()}</span>
-                                                                        ))}
-                                                                    </CardSkills>
-                                                                </CardContainer>
-                                                            </div>
+                                                            <LinkStylled to={`/chat/${project.id}`}>
+                                                                <div>
+                                                                    <CardContainer>
+                                                                        <CardTitle>{project.title}</CardTitle>
+                                                                        <CardDescription>{project.desc}</CardDescription>
+                                                                        <CardSkills>
+                                                                            {project.skills.split(',').map((skill: string, index: number) => (
+                                                                                <span key={index}>{skill.trim()}</span>
+                                                                            ))}
+                                                                        </CardSkills>
+                                                                    </CardContainer>
+                                                                </div>
+                                                            </LinkStylled>
                                                         </Col>
                                                     ))}
                                                 </Row>
@@ -144,25 +149,14 @@ function Projetos() {
                                 <div className="card-body text-center">
                                     <h5 className="card-title">Nenhum projeto encontrado</h5>
                                     <p className="card-text">Não há projetos disponíveis</p>
-                                    <Button onClick={handleModalShow} className="btn btn-dark" >Publicar projeto</Button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 )}
-
-                <Modal show={showModal} onHide={handleModalClose}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Criar Novo Projeto</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <Order onClose={handleModalClose} />
-                    </Modal.Body>
-                </Modal>
-
             </div>
         </div>
     );
 }
 
-export default Projetos;
+export default Produtores;

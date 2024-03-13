@@ -6,3 +6,9 @@
   text-decoration: none;
 
 }
+
+/* Estilizando as setas do carrossel */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: #000; /* Defina a cor desejada para as setas */
+}
