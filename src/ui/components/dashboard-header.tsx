@@ -6,6 +6,9 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
 function DashboardHeader() {
+
+
+    const isEditor = sessionStorage.getItem('isEditor') == 'true';
     
     const navigate = useNavigate();
 
@@ -24,17 +27,16 @@ function DashboardHeader() {
         <div className="row bg-dark p-3">
             <ul className="nav justify-content-center text-white">
                 <li className="nav-item">
-                    <Link className="nav-link text-white" to="/projetos">Projetos</Link>
+                    <Link className="nav-link text-white" to={isEditor ? '/carteira' : '/projetos'}>{isEditor ? 'Carteira' : 'Projetos'}</Link>
+                </li>
+                <li className="nav-item">
                 </li>
                 <li className="nav-item">
                     <Link className="nav-link text-white" to="/chat">Conversas</Link>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link text-white" to="/editores">Freelancers</Link>
+                    <Link className="nav-link text-white" to={isEditor ? '/produtores' : '/editores'}>{isEditor ? 'Produtores' : 'Freelancers'}</Link>
                 </li>   
-                <li className="nav-item">
-                    <Link className="nav-link text-white" to="/produtores">Produtores</Link>
-                </li>
                 <li className="nav-item">
                     <Link className="nav-link text-white" to="/perfil">Perfil</Link>
                 </li>

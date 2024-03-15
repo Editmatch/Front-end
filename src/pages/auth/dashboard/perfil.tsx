@@ -139,81 +139,69 @@ function EditInfo() {
         <>
             <Header />
             <DashboardHeader />
-            <div className="card">
-                <div className="row mt-5">
-                    <div className="row">
-                        <div className="col-1 col-md-2 text-center">
-                            <Imagem className="mb-4" src={imagen ? imagen : defaultImage} alt="Foto da pessoa" />
-                            <input type="file" className='form-control' onChange={trocarImagemOnChange} />
-                        </div>
-
-                        <div className="col-11 col-md-10">
-
-                            <div className="content">
-                                <h5 className='mt-5'>Dados pessoais</h5>
-                                <div className="row">
-                                    <div className="col-6 col-md-6">
-                                        <label className='form-label'>Nome</label>
-                                        <input type="text" className='form-control' defaultValue={sessionStorage.getItem('usuario') ?? ''} />
-                                    </div>
-                                    <div className="col-6 col-md-6">
-                                        <label className='form-label'>Email</label>
-                                        <input type="text" className='form-control' defaultValue={sessionStorage.getItem('userEmail') ?? ''} />
-                                    </div>
-                                </div>
-
-                                <div className="row mt-5">
-                                    <div className="col-md-6">
-
-                                        <div className="col-md-12">
-                                            <label className='form-label'>Codigo postal</label>
-                                            <input
-                                                type="text"
-                                                id="cep"
-                                                onBlur={handleSubmit}
-                                                onChange={(event) => setCep(event.target.value)}
-                                                className='form-control'
-                                            />
+            <div className="container">
+                <div className="card">
+                    <div className="row mt-5">
+                        <div className="row">
+                            <div className="col-1 col-md-2 text-center">
+                                <Imagem className="mb-4" src={imagen ? imagen : defaultImage} alt="Foto da pessoa" />
+                                <input type="file" className='form-control' onChange={trocarImagemOnChange} />
+                            </div>
+                            <div className="col-11 col-md-10">
+                                <div className="content">
+                                    <h5 className='mt-5'>Dados pessoais</h5>
+                                    <div className="row">
+                                        <div className="col-6 col-md-6">
+                                            <label className='form-label'>Nome</label>
+                                            <input type="text" className='form-control' defaultValue={sessionStorage.getItem('usuario') ?? ''} />
                                         </div>
-
-                                        <label className='form-label'>Cidade</label>
-                                        <input type="text" className='form-control' defaultValue={localidade} readOnly />
-
-                                        <label className='form-label'>Logradouro</label>
-                                        <input type="text" className='form-control' defaultValue={logradouro} readOnly />
-
-                                        <label className='form-label'>Complemento</label>
-                                        <input type="text" className='form-control' />
-
-
+                                        <div className="col-6 col-md-6">
+                                            <label className='form-label'>Email</label>
+                                            <input type="text" className='form-control' defaultValue={sessionStorage.getItem('userEmail') ?? ''} />
+                                        </div>
                                     </div>
-
-                                    <div className="col-md-6">
-                                        <label className='form-label'>Estado</label>
-                                        <input type="text" className='form-control' defaultValue={uf} readOnly />
-
-                                        <label className='form-label'>Bairro</label>
-                                        <input type="text" className='form-control' defaultValue={bairro} readOnly />
-
-                                        <label className='form-label'>Numero</label>
-                                        <input type="text" className='form-control' />
+                                    <div className="row mt-5">
+                                        <div className="col-md-6">
+                                            <div className="col-md-12">
+                                                <label className='form-label'>Codigo postal</label>
+                                                <input
+                                                    type="text"
+                                                    id="cep"
+                                                    onBlur={handleSubmit}
+                                                    onChange={(event) => setCep(event.target.value)}
+                                                    className='form-control'
+                                                />
+                                            </div>
+                                            <label className='form-label'>Cidade</label>
+                                            <input type="text" className='form-control' defaultValue={localidade} readOnly />
+                                            <label className='form-label'>Logradouro</label>
+                                            <input type="text" className='form-control' defaultValue={logradouro} readOnly />
+                                            <label className='form-label'>Complemento</label>
+                                            <input type="text" className='form-control' />
+                                        </div>
+                                        <div className="col-md-6">
+                                            <label className='form-label'>Estado</label>
+                                            <input type="text" className='form-control' defaultValue={uf} readOnly />
+                                            <label className='form-label'>Bairro</label>
+                                            <input type="text" className='form-control' defaultValue={bairro} readOnly />
+                                            <label className='form-label'>Numero</label>
+                                            <input type="text" className='form-control' />
+                                        </div>
                                     </div>
-                                </div>
-
-                                <div className="row mt-4">
-                                    <div className=" col-md-6">
-                                        <label className='form-label'>Senha atual</label>
-                                        <input type="text" className='form-control' />
+                                    <div className="row mt-4">
+                                        <div className=" col-md-6">
+                                            <label className='form-label'>Senha atual</label>
+                                            <input type="text" className='form-control' />
+                                        </div>
+                                        <div className=" col-md-6">
+                                            <label className='form-label'>Confirmar senha</label>
+                                            <input type="text" className='form-control' />
+                                        </div>
                                     </div>
-                                    <div className=" col-md-6">
-                                        <label className='form-label'>Confirmar senha</label>
-                                        <input type="text" className='form-control' />
-                                    </div>
-                                </div>
-
-                                <div className="row mt-4">
-                                    <div className="col-md-12 text-end mb-2">
-                                        <button onClick={saveInfo} className={`btn btn-success`}>Atualizar dados</button>
+                                    <div className="row mt-4">
+                                        <div className="col-md-12 text-end mb-2">
+                                            <button onClick={saveInfo} className={`btn btn-success`}>Atualizar dados</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

@@ -25,6 +25,8 @@ function Header() {
         cursor: pointer;
     `;
 
+    const isEditor = sessionStorage.getItem('isEditor');
+
     return (
         <Header>
             <div className="container">
@@ -48,10 +50,12 @@ function Header() {
                             {!sessionStorage.getItem('authToken') ? (
                                 <>
                                     <Link to="/selecionar-perfil" className="btn text-gray">Cadastrar</Link>
-                                    <Link to="/selecionar-perfil" className="btn text-gray">Login</Link>
+                                    <Link to="/login" className="btn text-gray">Login</Link>
                                 </>
                             ) : null}
-                            <Link to={sessionStorage.getItem('authToken') ? "/publicar-projeto" : "/selecionar-perfil"} className="btn btn-dark">Publicar projeto</Link>
+                            {sessionStorage.getItem('authToken') && !isEditor ? (
+                                <Link to={sessionStorage.getItem('authToken') ? "/publicar-projeto" : "/selecionar-perfil"} className="btn btn-dark">Publicar projeto</Link>
+                            ) : null}
                         </div>
                     </div>
 
