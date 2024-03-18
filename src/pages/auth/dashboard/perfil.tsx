@@ -3,8 +3,11 @@ import axios from 'axios';
 import Header from '../../../ui/components/header';
 import DashboardHeader from '../../../ui/components/dashboard-header';
 import styled from 'styled-components';
+import { useEnvironment } from '../../../data/contexts/enviromentContext';
 
 function EditInfo() {
+
+    const { apiUrl } = useEnvironment();
 
     const [cep, setCep] = useState('');
     const [logradouro, setLogradouro] = useState('');
@@ -53,7 +56,7 @@ function EditInfo() {
     const fetchProfileImage = async () => {
         try {
 
-            const response = await axios.get(`http://localhost:8080/usuarios/${sessionStorage.getItem('userId')}/photo`, {
+            const response = await axios.get(`${apiUrl}/usuarios/${sessionStorage.getItem('userId')}/photo`, {
                 responseType: 'arraybuffer',
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('authToken'),
@@ -87,7 +90,7 @@ function EditInfo() {
             formData.append('file', selectedImage);
 
             const response = await axios.post(
-                `http://localhost:8080/usuarios/${sessionStorage.getItem('userId')}/upload-photo`,
+                `${apiUrl}/usuarios/${sessionStorage.getItem('userId')}/upload-photo`,
                 formData,
                 {
                     headers: {
@@ -107,7 +110,7 @@ function EditInfo() {
     };
 
     const saveInfo = async () => {
-        axios.post(`http://localhost:8080/enderecos/${sessionStorage.getItem('userId')}`, {
+        axios.post(`${apiUrl}/enderecos/${sessionStorage.getItem('userId')}`, {
             cidade: localidade,
             cep: cep,
             logradouro: logradouro,

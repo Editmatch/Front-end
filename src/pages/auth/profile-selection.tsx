@@ -1,5 +1,7 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { useEnvironment } from "../../data/contexts/enviromentContext";
+
 
 const Card = styled.div`
     display: flex;
@@ -22,12 +24,14 @@ const LinkStyled = styled.div`
 
 function ProfileSelection() {
     const navigate = useNavigate();
+    const {apiUrl} = useEnvironment();
+
 
     const handleClick = (type:any) => {
         if (type === 'editor') {
-            navigate('/registro', { state: { rota: 'http://localhost:8080/editores' } });
+            navigate('/registro', { state: { rota: apiUrl + '/editores' } });
         } else {
-            navigate('/registro', { state: { rota: 'http://localhost:8080/clientes' } });
+            navigate('/registro', { state: { rota: apiUrl + '/clientes' } });
         }
     };
 

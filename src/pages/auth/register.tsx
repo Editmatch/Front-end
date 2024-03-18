@@ -2,8 +2,11 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from '../../ui/images/logo.png';
 import { FormEvent, useState } from 'react';
 import axios from 'axios';
+import { useEnvironment } from '../../data/contexts/enviromentContext';
 
 function Registro() {
+  const { apiUrl } = useEnvironment();
+
   const [formData, setFormData] = useState({
     email: '',
     name: '',
@@ -51,7 +54,7 @@ function Registro() {
         chavePix: formData.pixKey.length >= 1 ? pixKey : "",
         skills: formData.skills.length >= 1 ? trimmedSkills : null,
         valorHora: formData.hourValue.length >= 1 ? hourValue : null,
-        isEditor: endpoint === 'http://localhost:8080/editores',
+        isEditor: endpoint === apiUrl + '/editores',
       });
 
       console.log(response.status);
@@ -138,7 +141,7 @@ function Registro() {
                             placeholder="Confirme a senha*"
                           />
                         </div>
-                        {rota === 'http://localhost:8080/clientes' && (
+                        {rota === apiUrl + '/clientes' && (
 
                           <div className="form-outline form-dark mb-4">
                             <input
@@ -152,13 +155,13 @@ function Registro() {
                           </div>
                         )}
 
-                        {rota !== 'http://localhost:8080/clientes' && (
+                        {rota !== apiUrl + '/clientes' && (
                           <button className="btn btn-dark btn-lg px-5" onClick={() => setStep(2)}>
                             Continuar
                           </button>
                         )}
 
-                        {rota === 'http://localhost:8080/clientes' && (
+                        {rota === apiUrl + '/clientes' && (
                           <button className="btn btn-dark btn-lg px-5" type="submit">
                             Concluir Cadastro
                           </button>

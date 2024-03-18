@@ -5,8 +5,11 @@ import Header from '../../../ui/components/header';
 import styled from 'styled-components';
 import axios from 'axios';
 import Order from '../../../ui/components/order';
+import { useEnvironment } from '../../../data/contexts/enviromentContext';
 
 function Projetos() {
+
+    const { apiUrl } = useEnvironment();
     const CarouselContainer = styled.div`
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
@@ -19,7 +22,7 @@ function Projetos() {
     const userId = sessionStorage.getItem('userId');
 
     const fetchProjects = () => {
-        axios.get(`http://localhost:8080/orders/order-client?id=${userId}`, {
+        axios.get(`${apiUrl}/orders/order-client?id=${userId}`, {
             headers: {
                 Authorization: `Bearer ${sessionStorage.getItem('authToken')}`
             }

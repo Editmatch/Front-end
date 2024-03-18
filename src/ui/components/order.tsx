@@ -1,16 +1,20 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Modal, Button, Form, Col, Row } from 'react-bootstrap';
 import axios from 'axios';
+import { useEnvironment } from '../../data/contexts/enviromentContext';
 
 interface OrderProps {
     onClose?: () => void;
 }
+
 
 const Order: React.FC<OrderProps> = ({ onClose }) => {
     const [title, setTitle] = useState('');
     const [desc, setDesc] = useState('');
     const [skills, setSkills] = useState('');
     const modalRef = useRef<HTMLDivElement>(null);
+
+    const {apiUrl} = useEnvironment();
 
     useEffect(() => {
         const handleOutsideClick = (event: MouseEvent) => {
@@ -36,7 +40,7 @@ const Order: React.FC<OrderProps> = ({ onClose }) => {
             clientFinal: sessionStorage.getItem("userId")
         };
 
-        axios.post('http://localhost:8080/orders', data, {
+        axios.post(apiUrl + '/orders', data, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
@@ -51,6 +55,8 @@ const Order: React.FC<OrderProps> = ({ onClose }) => {
                 console.error(error);
             });
     };
+
+
 
     return (
         <div className="" ref={modalRef}>
