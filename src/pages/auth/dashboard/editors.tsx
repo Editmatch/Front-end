@@ -6,14 +6,16 @@ import ProjectsCount from '../../../ui/components/projects-count';
 import axios from 'axios';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { useEnvironment } from '../../../data/contexts/enviromentContext';
 
 function Editores() {
+    const { apiUrl } = useEnvironment();
 
     const [editors, setEditors] = useState([]);
 
     useEffect(() => {
         axios
-            .get("http://localhost:8080/usuarios/listar-editor",
+            .get(apiUrl +"/usuarios/listar-editor",
                 {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('authToken'),

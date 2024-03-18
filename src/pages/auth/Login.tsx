@@ -4,7 +4,17 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import Backbutton from '../../ui/components/back-button';
 import axios from 'axios';
+import { Button, Modal } from 'react-bootstrap';
+import { useEnvironment } from '../../data/contexts/enviromentContext';
 function Login() {
+
+  const { apiUrl } = useEnvironment();
+
+  const [showModal, setShowModal] = useState(false);
+
+  const handleShowModal = () => setShowModal(true);
+
+  const handleCloseModal = () => setShowModal(false);
 
   interface Usuario {
     email: string;
@@ -15,11 +25,12 @@ function Login() {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const url: string = "http://localhost:8080/usuarios/login";
 
 
+  const [loginError, setLoginError] = useState(false);
 
   const logar = (user: Usuario) => {
+    const url = `${apiUrl}/usuarios/login`;
 
     console.log('email', user.email, 'senha', user.password);
     axios.post(url, {
@@ -39,15 +50,20 @@ function Login() {
           sessionStorage.setItem('isEditor', response.data.editor);
 
           let route = sessionStorage.getItem('isEditor') === 'true' ? '/carteira' : '/projetos';
-          
-          alert('Login realizado com sucesso!')
-          navigate(route)
+
+          handleShowModal();
+
+          setTimeout(() => {
+            navigate(route);
+          }, 2000);
 
         } else {
+          setLoginError(true);
           throw new Error('Ops! Ocorreu um erro interno.');
         }
       })
       .catch(error => {
+        setLoginError(true);
         console.log(error)
       });
   };
@@ -76,6 +92,9 @@ function Login() {
                     <div className="form-outline form-dark mb-4">
                       <input type="password" id="typePasswordX" className="form-control form-control-md" placeholder='Senha*' onChange={(event) => setPassword(event.target.value)} />
                     </div>
+                    <div className="row">
+                      {loginError && <p className="text-danger" >Usuario ou senha incorretos, por favor tente novamente</p>}
+                    </div>
                     <button className="btn btn-dark btn-lg px-5" onClick={(event) => logar({ email, password })}>Continuar</button>
                   </div>
 
@@ -91,6 +110,16 @@ function Login() {
           </div>
         </div>
       </section >
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title className='text-success'>Login realizado com sucesso!</Modal.Title>
+        </Modal.Header>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Fechar
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   )
 }

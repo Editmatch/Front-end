@@ -7,8 +7,6 @@ import {
     MDBCardBody,
     MDBIcon,
     MDBTypography,
-    MDBTextArea,
-    MDBCardHeader,
     MDBInputGroup,
 } from "mdb-react-ui-kit";
 import Header from "../../../ui/components/header";

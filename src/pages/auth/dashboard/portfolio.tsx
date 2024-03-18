@@ -7,8 +7,11 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
+import { useEnvironment } from "../../../data/contexts/enviromentContext";
 
 export default function Portfolio() {
+
+    const {apiUrl} = useEnvironment();
 
     const navigate = useNavigate();
     const [perfil, setPerfil] = useState();
@@ -17,7 +20,7 @@ export default function Portfolio() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8080/portfolios/${id}`, {
+            .get(`${apiUrl}/portfolios/${id}`, {
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('authToken'),
                     'Content-Type': 'application/json',

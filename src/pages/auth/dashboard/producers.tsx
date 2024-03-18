@@ -1,13 +1,17 @@
 import { useEffect, useState } from 'react';
-import { Modal, Button, Carousel, Row, Col } from 'react-bootstrap';
+import { Carousel, Row, Col } from 'react-bootstrap';
 import DashboardHeader from '../../../ui/components/dashboard-header';
 import Header from '../../../ui/components/header';
 import styled from 'styled-components';
 import axios from 'axios';
 import Order from '../../../ui/components/order';
 import { Link } from 'react-router-dom';
+import { useEnvironment } from '../../../data/contexts/enviromentContext';
 
 function Produtores() {
+
+    const {apiUrl} = useEnvironment();
+
     const CarouselContainer = styled.div`
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
@@ -20,7 +24,7 @@ function Produtores() {
     const userId = sessionStorage.getItem('userId');
 
     const fetchProjects = () => {
-        axios.get(`http://localhost:8080/orders`, {
+        axios.get(`${apiUrl}/orders`, {
             headers: {
                 Authorization: `Bearer ${sessionStorage.getItem('authToken')}`
             }
