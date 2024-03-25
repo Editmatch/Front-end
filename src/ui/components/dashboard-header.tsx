@@ -12,6 +12,8 @@ function DashboardHeader() {
     
     const navigate = useNavigate();
 
+    const idPortfolio = `/portfolio/${sessionStorage.getItem('userId')}`
+
     const [showModal, setShowModal] = useState(false);
 
     const handleClose = () => setShowModal(false);
@@ -41,15 +43,21 @@ function DashboardHeader() {
                 </li>
                 <li className="nav-item">
                 </li>
-                <li className="nav-item">
+                {/* <li className="nav-item">
                     <LinkStyled className="nav-link" to="/chat">Conversas</LinkStyled>
-                </li>
+                </li> */}
+                
                 <li className="nav-item">
                     <LinkStyled className="nav-link" to={isEditor ? '/produtores' : '/editores'}>{isEditor ? 'Produtores' : 'Freelancers'}</LinkStyled>
                 </li>   
                 <li className="nav-item">
                     <LinkStyled className="nav-link" to="/perfil">Perfil</LinkStyled>
                 </li>
+                {isEditor &&(
+                    <li className="nav-item">
+                    <LinkStyled className="nav-link" to={idPortfolio}>Meu portfolio</LinkStyled>
+                </li>   
+                )}
                 <li className="nav-item">
                     <LinkStyled className="nav-link" to="#" onClick={handleShow}>Desconectar</LinkStyled>
                 </li>

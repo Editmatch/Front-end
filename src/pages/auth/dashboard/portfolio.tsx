@@ -9,14 +9,35 @@ import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { useEnvironment } from "../../../data/contexts/enviromentContext";
 
+
+interface Perfil {
+    editorId: number;
+    nomeEditor: string;
+    photoProfileData: string | null;
+    title: string | null;
+    valor: number;
+    linkYtVideoId: [] 
+}
+
 export default function Portfolio() {
 
     const {apiUrl} = useEnvironment();
 
     const navigate = useNavigate();
-    const [perfil, setPerfil] = useState();
-    const [videos, setVideos] = useState([]);
+
+    const [videos, setVideos] = useState<string[]>([]); // Definindo o tipo de videos como uma array de string
+
     const { id } = useParams();
+
+    const [perfil, setPerfil] = useState<Perfil>({ // Definindo o tipo de perfil como Perfil
+        editorId: 0,
+        nomeEditor: '',
+        photoProfileData: null,
+        title: null,
+        valor: 0,
+        linkYtVideoId: []
+    });
+    
 
     const LinkStyled = styled(Link)`
         color: #000;
@@ -31,7 +52,7 @@ export default function Portfolio() {
 
     useEffect(() => {
         axios
-            .get(`${apiUrl}/portfolios/${id}`, {
+            .get<Perfil>(`${apiUrl}/portfolios/${id}`, {
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('authToken'),
                     'Content-Type': 'application/json',
@@ -40,17 +61,18 @@ export default function Portfolio() {
             .then((response) => {
                 console.log(response.data);
                 setPerfil(response.data);
-
-                // Processa os links dos vídeos do YouTube
-                if(response.data.linkYtVideoId){
-                    const videoIds = response.data.linkYtVideoId.map((link: string) => {
-                        const match = link.match(/(?:\?v=|\/embed\/|\.be\/)([\w-]{11})/);
-                        return match ? match[1] : null;
-                    }).filter((videoId: string | null) => videoId !== null);
+                if (response.data.linkYtVideoId) {
+                    const videoIds = response.data.linkYtVideoId
+                        .filter((link: string | null): link is string => link !== null) // Filtrando os valores null
+                        .map((link: string) => {
+                            const match = link.match(/(?:\?v=|\/embed\/|\.be\/)([\w-]{11})/);
+                            return match ? match[1] : null;
+                        })
+                        .filter((videoId: string | null): videoId is string => videoId !== null); // Filtrando novamente após a transformação
     
                     setVideos(videoIds);
                 }
-                
+    
             })
             .catch((error) => {
                 console.error('Erro ao carregar o portfolio:', error);
@@ -73,10 +95,10 @@ export default function Portfolio() {
             <div className="container">
                     <div className="row mt-3 p-4">
                         <div className="col-md-3">
-                            <Imagem src="https://via.placeholder.com/250" alt="" />
+                            <Imagem src="https://simg.nicepng.com/png/small/202-2022264_usuario-annimo-usuario-annimo-user-icon-png-transparent.png" alt="" />
                         </div>
                         <div className="col-md-4 mt-5  m-3 ">
-                            <h5 className="">Fulano de tal</h5>
+                            <h5 className="">{perfil?.nomeEditor}</h5>
                             <span>Editor</span>
                             <div className="row mt-5">
                                 <Avaliacao />
@@ -88,8 +110,10 @@ export default function Portfolio() {
                             </div>
                         </div>
                         <div className="col-md-3 mt-4 align-end">
-                            <LinkStyled to="/chat"><b>Enviar mensagem</b></LinkStyled>
-                            <LinkStyled to="/pagamento"><b>Contratar</b></LinkStyled>
+                            {/* <LinkStyled to="/chat"><b>Enviar mensagem</b></LinkStyled> */}
+                            {sessionStorage.getItem('isEditor') === 'false' &&
+                            <LinkStyled to={`/pagamento/${id}/${perfil?.valor ?? ''}`}><b>Contratar</b></LinkStyled>
+                        }
                         </div>
                     </div>
                     <div className="row mt-5">

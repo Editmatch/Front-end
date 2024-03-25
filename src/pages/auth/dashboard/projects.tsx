@@ -121,7 +121,7 @@ function Projetos() {
                                                             <div>
                                                                 <CardContainer>
                                                                     <CardTitle>{project.title}</CardTitle>
-                                                                    <CardDescription>{project.desc}</CardDescription>
+                                                                    <CardDescription>{project.description}</CardDescription>
                                                                     <CardSkills>
                                                                         {project.skills.split(',').map((skill: string, index: number) => (
                                                                             <span key={index}>{skill.trim()}</span>

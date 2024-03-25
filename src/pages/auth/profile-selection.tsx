@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useEnvironment } from "../../data/contexts/enviromentContext";
+import { Helmet } from "react-helmet";
 
 
 const Card = styled.div`

@@ -13,6 +13,7 @@ import Registro from './pages/auth/register';
 import Portfolio from './pages/auth/dashboard/portfolio';
 import Produtores from './pages/auth/dashboard/producers';
 import { Wallet } from './pages/auth/dashboard/wallet';
+import Pagamento from './pages/auth/dashboard/pagamento';
 
 function Rotas() {
     return (
@@ -30,6 +31,7 @@ function Rotas() {
                 <Route path="/projetos" element={<Projetos />} />
                 <Route path="/produtores" element={<Produtores />} />
                 <Route path="/carteira" element={<Wallet />} />
+                <Route path="/pagamento/:id/:valor" element={<Pagamento />} />
             </Routes>
     );
 }

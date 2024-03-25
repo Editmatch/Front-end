@@ -10,7 +10,7 @@ interface OrderProps {
 
 const Order: React.FC<OrderProps> = ({ onClose }) => {
     const [title, setTitle] = useState('');
-    const [desc, setDesc] = useState('');
+    const [describle, setDescrible] = useState('');
     const [skills, setSkills] = useState('');
     const modalRef = useRef<HTMLDivElement>(null);
 
@@ -35,7 +35,7 @@ const Order: React.FC<OrderProps> = ({ onClose }) => {
 
         const data = {
             title,
-            desc,
+            describle,
             skills: skills.split(',').map(skill => skill.trim()),
             clientFinal: sessionStorage.getItem("userId")
         };
@@ -76,8 +76,8 @@ const Order: React.FC<OrderProps> = ({ onClose }) => {
                         as="textarea"
                         placeholder="Descrição detalhada do pedido"
                         rows={3}
-                        value={desc}
-                        onChange={(event) => setDesc(event.target.value)}
+                        value={describle}
+                        onChange={(event) => setDescrible(event.target.value)}
                     />
                 </Form.Group>
                 <Form.Group>

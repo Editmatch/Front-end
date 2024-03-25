@@ -219,7 +219,7 @@ function Registro() {
                       </a>
                     </p>
                     <p className="mb-0">
-                      Já tem uma conta? <Link to="#!" className="text-dark-50 fw-bold">Logar</Link>
+                      Já tem uma conta? <Link to="/login" className="text-dark-50 fw-bold">Logar</Link>
                     </p>
                   </div>
                 </div>

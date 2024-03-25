@@ -3,6 +3,8 @@ import Header from '../../ui/components/header';
 import Footer from '../../ui/components/footer';
 import { Link } from 'react-router-dom';
 import backgroundImage from '../../ui/images/wallpaper.jpg'
+import logo from '../../../public/logo.png'
+import { Helmet } from 'react-helmet';
 
 
 const Fundo = styled.div`
@@ -51,6 +53,7 @@ const FundoContent = styled.div`
 function Home() {
   return (
     <div>
+     
       <Header />
 
       <Fundo>
