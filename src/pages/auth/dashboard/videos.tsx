@@ -1,17 +1,16 @@
 import { useEffect, useState } from 'react';
-import { Carousel, Row, Col } from 'react-bootstrap';
+import { Modal, Button, Carousel, Row, Col } from 'react-bootstrap';
 import DashboardHeader from '../../../ui/components/dashboard-header';
 import Header from '../../../ui/components/header';
 import styled from 'styled-components';
 import axios from 'axios';
 import Order from '../../../ui/components/order';
-import { Link } from 'react-router-dom';
 import { useEnvironment } from '../../../data/contexts/enviromentContext';
+import { Link } from 'react-router-dom';
 
-function Produtores() {
+function Videos() {
 
-    const {apiUrl} = useEnvironment();
-
+    const { apiUrl } = useEnvironment();
     const CarouselContainer = styled.div`
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
@@ -19,12 +18,11 @@ function Produtores() {
     `;
 
     const [projects, setProjects] = useState([]);
-    const [showModal, setShowModal] = useState(false);
 
     const userId = sessionStorage.getItem('userId');
 
     const fetchProjects = () => {
-        axios.get(`${apiUrl}/orders`, {
+        axios.get(`${apiUrl}/orders/editor/${userId}`, {
             headers: {
                 Authorization: `Bearer ${sessionStorage.getItem('authToken')}`
             }
@@ -45,9 +43,6 @@ function Produtores() {
 
         return () => clearInterval(intervalId);
     }, []);
-
-    const handleModalClose = () => setShowModal(false);
-    const handleModalShow = () => setShowModal(true);
 
     const chunkArray = (arr: any[], chunkSize: number) => {
         const chunkedArray = [];
@@ -96,11 +91,11 @@ function Produtores() {
     font-size: 12px;
 `;
 
-const LinkStylled = styled(Link)`
+
+    const LinkStylled = styled(Link)`
     text-decoration: none;
     color: black;
 `;
-
 
     return (
         <div>
@@ -111,7 +106,11 @@ const LinkStylled = styled(Link)`
                     <>
                         <div className="row mt-5">
                             <div className="col-md-6">
-                                <h5><b>Videos disponiveis</b></h5>
+                                <h5><b>Projetos de Vídeos</b></h5>
+                            </div>
+
+                            <div className="col-md-6 d-flex justify-content-end">
+                                <Link to="/produtores" className="btn btn-dark">Encontrar novo projeto</Link>
                             </div>
 
                             <div className="col-md-12 mt-5">
@@ -122,11 +121,11 @@ const LinkStylled = styled(Link)`
                                                 <Row>
                                                     {chunk.map((project: any) => (
                                                         <Col md={3} key={project.orderId}>
-                                                            <LinkStylled to={`/pedido/${project.orderId}`}>
+                                                            <LinkStylled to={`/pedidoEditor/${project.orderId}`}>
                                                                 <div>
                                                                     <CardContainer>
                                                                         <CardTitle>{project.title}</CardTitle>
-                                                                        <CardDescription>{project.desc}</CardDescription>
+                                                                        <CardDescription>{project.description}</CardDescription>
                                                                         <CardSkills>
                                                                             {project.skills.split(',').map((skill: string, index: number) => (
                                                                                 <span key={index}>{skill.trim()}</span>
@@ -153,14 +152,15 @@ const LinkStylled = styled(Link)`
                                 <div className="card-body text-center">
                                     <h5 className="card-title">Nenhum projeto encontrado</h5>
                                     <p className="card-text">Não há projetos disponíveis</p>
+                                    <Link to="/produtores" className="btn btn-dark">Encontrar novo projeto</Link>
                                 </div>
                             </div>
                         </div>
                     </div>
                 )}
             </div>
-        </div>
+        </div >
     );
 }
 
-export default Produtores;
+export default Videos;

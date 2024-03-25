@@ -53,7 +53,8 @@ const Pagamento: React.FC = () => {
   const [tipoPagamento, setTipoPagamento] = useState('Entrada');
 
   const [locId, setLocId] = useState();
-
+  
+  const [linkVisualizacao, setLinkVisualizacao] = useState('');
   const getQrCode = async (locId: Number) => {
     try {
       const response = await axios.get(`${apiUrl}/transacao/qrcode/${locId}`, {
@@ -64,12 +65,19 @@ const Pagamento: React.FC = () => {
         }
       });
 
-      console.log('QR Code:', response.data);
+      console.log('QR Code:', response.data.linkVisualizacao)
+      setLinkVisualizacao(response.data.linkVisualizacao);
     } catch (error) {
       console.error('Erro ao obter QR Code:', error);
     }
   };
 
+  useEffect(() => {
+    if (linkVisualizacao) {
+      window.open(linkVisualizacao, '_blank');
+    }
+  }, [linkVisualizacao]);
+  
 
   useEffect(() => {
     if (locId) {

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Modal, Button, Form, Col, Row } from 'react-bootstrap';
+import { Modal, Button, Form, Col, Row, Alert } from 'react-bootstrap';
 import axios from 'axios';
 import { useEnvironment } from '../../data/contexts/enviromentContext';
 
@@ -7,14 +7,15 @@ interface OrderProps {
     onClose?: () => void;
 }
 
-
 const Order: React.FC<OrderProps> = ({ onClose }) => {
     const [title, setTitle] = useState('');
     const [describle, setDescrible] = useState('');
     const [skills, setSkills] = useState('');
+    const [link, setLink] = useState(''); 
+    const [error, setError] = useState<string | null>(null);
     const modalRef = useRef<HTMLDivElement>(null);
 
-    const {apiUrl} = useEnvironment();
+    const { apiUrl } = useEnvironment();
 
     useEffect(() => {
         const handleOutsideClick = (event: MouseEvent) => {
@@ -33,11 +34,18 @@ const Order: React.FC<OrderProps> = ({ onClose }) => {
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
+        // Verifica se o campo do link está vazio
+        if (!link) {
+            setError('O campo do link é obrigatório.');
+            return;
+        }
+
         const data = {
             title,
             describle,
             skills: skills.split(',').map(skill => skill.trim()),
-            clientFinal: sessionStorage.getItem("userId")
+            clientFinal: sessionStorage.getItem("userId"),
+            link // Adiciona o link aos dados a serem enviados
         };
 
         axios.post(apiUrl + '/orders', data, {
@@ -56,11 +64,10 @@ const Order: React.FC<OrderProps> = ({ onClose }) => {
             });
     };
 
-
-
     return (
         <div className="" ref={modalRef}>
             <Form onSubmit={handleSubmit}>
+                {error && <Alert variant="danger">{error}</Alert>} {/* Exibe o erro, se houver */}
                 <Form.Group>
                     <Form.Label >Título:</Form.Label>
                     <Form.Control
@@ -87,6 +94,15 @@ const Order: React.FC<OrderProps> = ({ onClose }) => {
                         placeholder="Separe as habilidades por vírgula"
                         value={skills}
                         onChange={(event) => setSkills(event.target.value)}
+                    />
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label className='mt-3 m-0'>Link:</Form.Label>
+                    <Form.Control
+                        type="text"
+                        placeholder="Link do video (obrigatório)"
+                        value={link}
+                        onChange={(event) => setLink(event.target.value)}
                     />
                 </Form.Group>
                 <Row>

@@ -9,7 +9,7 @@ function DashboardHeader() {
 
 
     const isEditor = sessionStorage.getItem('isEditor') == 'true';
-    
+
     const navigate = useNavigate();
 
     const idPortfolio = `/portfolio/${sessionStorage.getItem('userId')}`
@@ -46,17 +46,23 @@ function DashboardHeader() {
                 {/* <li className="nav-item">
                     <LinkStyled className="nav-link" to="/chat">Conversas</LinkStyled>
                 </li> */}
-                
+
                 <li className="nav-item">
                     <LinkStyled className="nav-link" to={isEditor ? '/produtores' : '/editores'}>{isEditor ? 'Produtores' : 'Freelancers'}</LinkStyled>
-                </li>   
+                </li>
                 <li className="nav-item">
                     <LinkStyled className="nav-link" to="/perfil">Perfil</LinkStyled>
                 </li>
-                {isEditor &&(
+                {isEditor && (
                     <li className="nav-item">
-                    <LinkStyled className="nav-link" to={idPortfolio}>Meu portfolio</LinkStyled>
-                </li>   
+                        <LinkStyled className="nav-link" to={idPortfolio}>Meu portfolio</LinkStyled>
+                    </li>
+                )}
+
+                {isEditor && (
+                    <li className="nav-item">
+                        <LinkStyled className="nav-link" to="/videos">Videos</LinkStyled>
+                    </li>
                 )}
                 <li className="nav-item">
                     <LinkStyled className="nav-link" to="#" onClick={handleShow}>Desconectar</LinkStyled>
