@@ -122,7 +122,7 @@ const LinkStylled = styled(Link)`
                                                 <Row>
                                                     {chunk.map((project: any) => (
                                                         <Col md={3} key={project.orderId}>
-                                                            <LinkStylled to={`/chat/${project.id}`}>
+                                                            <LinkStylled to={`/pedido/${project.orderId}`}>
                                                                 <div>
                                                                     <CardContainer>
                                                                         <CardTitle>{project.title}</CardTitle>

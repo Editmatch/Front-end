@@ -128,7 +128,7 @@ function Editores() {
                 </div>
 
                 <div className="row mt-5">
-                    <p className='font-weight-bold'>Destaques</p>
+                    <p className='font-weight-bold'>Freelancers</p>
                     <div className="col-md-12">
                         <Carousel wrap>
                             {editorsChunks.map((chunk, index) => (

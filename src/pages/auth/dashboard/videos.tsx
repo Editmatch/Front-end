@@ -6,8 +6,9 @@ import styled from 'styled-components';
 import axios from 'axios';
 import Order from '../../../ui/components/order';
 import { useEnvironment } from '../../../data/contexts/enviromentContext';
+import { Link } from 'react-router-dom';
 
-function Projetos() {
+function Videos() {
 
     const { apiUrl } = useEnvironment();
     const CarouselContainer = styled.div`
@@ -17,12 +18,11 @@ function Projetos() {
     `;
 
     const [projects, setProjects] = useState([]);
-    const [showModal, setShowModal] = useState(false);
 
     const userId = sessionStorage.getItem('userId');
 
     const fetchProjects = () => {
-        axios.get(`${apiUrl}/orders/order-client?id=${userId}`, {
+        axios.get(`${apiUrl}/orders/editor/${userId}`, {
             headers: {
                 Authorization: `Bearer ${sessionStorage.getItem('authToken')}`
             }
@@ -43,9 +43,6 @@ function Projetos() {
 
         return () => clearInterval(intervalId);
     }, []);
-
-    const handleModalClose = () => setShowModal(false);
-    const handleModalShow = () => setShowModal(true);
 
     const chunkArray = (arr: any[], chunkSize: number) => {
         const chunkedArray = [];
@@ -94,6 +91,12 @@ function Projetos() {
     font-size: 12px;
 `;
 
+
+    const LinkStylled = styled(Link)`
+    text-decoration: none;
+    color: black;
+`;
+
     return (
         <div>
             <Header />
@@ -106,8 +109,8 @@ function Projetos() {
                                 <h5><b>Projetos de Vídeos</b></h5>
                             </div>
 
-                            <div className="col-md-6 d-flex justify-content-end"> {/* Alteração feita aqui */}
-                                <Button onClick={handleModalShow} className="btn btn-dark">Publicar projeto</Button>
+                            <div className="col-md-6 d-flex justify-content-end">
+                                <Link to="/produtores" className="btn btn-dark">Encontrar novo projeto</Link>
                             </div>
 
                             <div className="col-md-12 mt-5">
@@ -118,17 +121,19 @@ function Projetos() {
                                                 <Row>
                                                     {chunk.map((project: any) => (
                                                         <Col md={3} key={project.orderId}>
-                                                            <div>
-                                                                <CardContainer>
-                                                                    <CardTitle>{project.title}</CardTitle>
-                                                                    <CardDescription>{project.description}</CardDescription>
-                                                                    <CardSkills>
-                                                                        {project.skills.split(',').map((skill: string, index: number) => (
-                                                                            <span key={index}>{skill.trim()}</span>
-                                                                        ))}
-                                                                    </CardSkills>
-                                                                </CardContainer>
-                                                            </div>
+                                                            <LinkStylled to={`/pedidoEditor/${project.orderId}`}>
+                                                                <div>
+                                                                    <CardContainer>
+                                                                        <CardTitle>{project.title}</CardTitle>
+                                                                        <CardDescription>{project.description}</CardDescription>
+                                                                        <CardSkills>
+                                                                            {project.skills.split(',').map((skill: string, index: number) => (
+                                                                                <span key={index}>{skill.trim()}</span>
+                                                                            ))}
+                                                                        </CardSkills>
+                                                                    </CardContainer>
+                                                                </div>
+                                                            </LinkStylled>
                                                         </Col>
                                                     ))}
                                                 </Row>
@@ -147,25 +152,15 @@ function Projetos() {
                                 <div className="card-body text-center">
                                     <h5 className="card-title">Nenhum projeto encontrado</h5>
                                     <p className="card-text">Não há projetos disponíveis</p>
-                                    <Button onClick={handleModalShow} className="btn btn-dark" >Publicar projeto</Button>
+                                    <Link to="/produtores" className="btn btn-dark">Encontrar novo projeto</Link>
                                 </div>
                             </div>
                         </div>
                     </div>
                 )}
-
-                <Modal show={showModal} onHide={handleModalClose}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Criar Novo Projeto</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <Order onClose={handleModalClose} />
-                    </Modal.Body>
-                </Modal>
-
             </div>
-        </div>
+        </div >
     );
 }
 
-export default Projetos;
+export default Videos;
