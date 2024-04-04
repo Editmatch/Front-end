@@ -110,7 +110,7 @@ function Produtores() {
             <DashboardHeader />
             <div className="container">
                 {loadingVideos ? (
-                    <div className="card mt-4gi">
+                    <div className="card mt-4">
                         <div className="card-body bg-danger text-center">
                             <div className="card-title text-center text-white ">Carregando informações...</div>
                         </div>
