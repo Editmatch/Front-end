@@ -50,9 +50,7 @@ function DashboardHeader() {
                 <li className="nav-item">
                     <LinkStyled className="nav-link" to={isEditor ? '/produtores' : '/editores'}>{isEditor ? 'Produtores' : 'Freelancers'}</LinkStyled>
                 </li>
-                <li className="nav-item">
-                    <LinkStyled className="nav-link" to="/perfil">Perfil</LinkStyled>
-                </li>
+                
                 {isEditor && (
                     <li className="nav-item">
                         <LinkStyled className="nav-link" to={idPortfolio}>Meu portfolio</LinkStyled>

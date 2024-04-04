@@ -10,7 +10,7 @@ import { useEnvironment } from '../../../data/contexts/enviromentContext';
 
 function Produtores() {
 
-    const {apiUrl} = useEnvironment();
+    const { apiUrl } = useEnvironment();
 
     const CarouselContainer = styled.div`
         overflow-x: auto;
@@ -30,6 +30,7 @@ function Produtores() {
             }
         }).then((response) => {
             setProjects(response.data)
+            setLoadingVideos(false)
             console.log(response.data)
         }).catch((error) => {
             console.log(error)
@@ -58,6 +59,7 @@ function Produtores() {
     };
 
     const videosChuncks = chunkArray(projects, 4);
+    const [loadingVideos, setLoadingVideos] = useState(true);
 
 
     const CardContainer = styled.div`
@@ -96,19 +98,25 @@ function Produtores() {
     font-size: 12px;
 `;
 
-const LinkStylled = styled(Link)`
+    const LinkStylled = styled(Link)`
     text-decoration: none;
     color: black;
 `;
 
 
     return (
-        <div>
+        <>
             <Header />
             <DashboardHeader />
             <div className="container">
-                {projects.length > 0 ? (
-                    <>
+                {loadingVideos ? (
+                    <div className="card mt-4gi">
+                        <div className="card-body bg-danger text-center">
+                            <div className="card-title text-center text-white ">Carregando informações...</div>
+                        </div>
+                    </div>
+                ) : (
+                    <div>
                         <div className="row mt-5">
                             <div className="col-md-6">
                                 <h5><b>Videos disponiveis</b></h5>
@@ -144,23 +152,11 @@ const LinkStylled = styled(Link)`
                                 </CarouselContainer>
                             </div>
                         </div>
-
-                    </>
-                ) : (
-                    <div className="row mt-5">
-                        <div className="col-md-12">
-                            <div className="card">
-                                <div className="card-body text-center">
-                                    <h5 className="card-title">Nenhum projeto encontrado</h5>
-                                    <p className="card-text">Não há projetos disponíveis</p>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 )}
             </div>
-        </div>
-    );
+        </>
+    )
 }
 
 export default Produtores;
