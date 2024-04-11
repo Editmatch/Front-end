@@ -94,7 +94,7 @@ export function Wallet() {
 
     return (
         <>
-            <Header />
+            {/* <Header /> */}
             <DashboardHeader />
             <div className="container">
                 <div className="row mt-3 text-center p-4">

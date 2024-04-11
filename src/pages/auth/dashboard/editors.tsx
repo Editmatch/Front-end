@@ -87,7 +87,7 @@ function Editores() {
 
     return (
         <div>
-            <Header />
+            {/* <Header /> */}
             <DashboardHeader />
             <div className="container">
                 <ProjectsCount />

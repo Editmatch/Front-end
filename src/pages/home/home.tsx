@@ -66,8 +66,8 @@ function Home() {
           </div>
 
           <CenterDiv className="mt-5">
-            <Link to="/profile-selection" className='bg-white btn me-5'>Publicar projeto</Link>
-            <Link to="/profile-selection" className='btn btn-outline-light'>Sou Freelancer</Link>
+            <Link to="/selecionar-perfil" className='bg-white btn me-5'>Publicar projeto</Link>
+            <Link to="/selecionar-perfil" className='btn btn-outline-light'>Sou Freelancer</Link>
           </CenterDiv>
         </FundoContent>
       </Fundo>
@@ -75,7 +75,7 @@ function Home() {
       <div className="row">
         <Fundo2>
           <div className="col-12 col-md-12 mt-5">
-            <h3 className="text-center mb-5">Ainda não possui cadastro? <b>Cadastre-se aqui!</b></h3>
+            <h3 className="text-center mb-5">Ainda não possui cadastro? <b><Link to="/selecionar-perfil">Cadastre-se aqui!</Link></b></h3>
           </div>
         </Fundo2>
       </div>
@@ -122,7 +122,7 @@ function Home() {
         </div>
         <div className="row mt-2">
           <CenterDiv>
-            <button className="btn btn-dark mb-5 mt-5">Anuncie um projeto</button>
+            <Link to="/selecionar-perfil" className="btn btn-dark mb-5 mt-5">Anuncie um projeto</Link>
           </CenterDiv>
         </div>
       </Fundo2>

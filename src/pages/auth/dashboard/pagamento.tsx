@@ -115,7 +115,7 @@ const Pagamento: React.FC = () => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <DashboardHeader />
       <PagamentoContainer>
         <h2>Tela de Pagamento</h2>

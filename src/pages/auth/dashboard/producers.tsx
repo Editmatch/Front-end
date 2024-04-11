@@ -104,7 +104,7 @@ const LinkStylled = styled(Link)`
 
     return (
         <div>
-            <Header />
+            {/* <Header /> */}
             <DashboardHeader />
             <div className="container">
                 {projects.length > 0 ? (

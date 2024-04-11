@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import Card from "react-bootstrap/Card";
-import ListGroup from "react-bootstrap/ListGroup";
 import { useEnvironment } from "../../../data/contexts/enviromentContext";
 import { Button, Modal } from "react-bootstrap";
 import DashboardHeader from "../../../ui/components/dashboard-header";
@@ -109,17 +107,40 @@ export default function Portfolio() {
         color: blue;
     }
 `
+
+    const CardStyled = styled.div`
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        transition: 0.3s;
+        border-radius: 5px;
+        margin: 10px;
+        padding: 10px;
+    `;
+
+    const AnimatedCard = styled.div`
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        transition: 0.3s;
+        &:hover {
+            transform: 1.2;
+        }`;
+
+    const Overflow = styled.div`
+            height: 400px;
+            overflow-y: scroll;
+    `;
+
     return (
         <div>
-            <Header />
+            {/* <Header /> */}
             <DashboardHeader />
             <div className="container">
-                <div className="card mt-3">
+                <CardStyled className="card mt-3">
                     <div className="row mt-3 p-4">
+
                         <div className="col-md-3">
                             <Imagem src="https://simg.nicepng.com/png/small/202-2022264_usuario-annimo-usuario-annimo-user-icon-png-transparent.png" alt="" />
                         </div>
-                        <div className="col-md-4 mt-5  m-3 ">
+
+                        <div className="col-md-4 mt-5 m-3 ">
                             <h5 className="">{perfil?.nomeEditor}</h5>
                             <span>Editor</span>
                             <div className="row mt-5">
@@ -131,14 +152,18 @@ export default function Portfolio() {
                                 </span>
                             </div>
                         </div>
-                        <div className="col-md-3 mt-4 align-end d-flex justify-content-end mt-2">
+
+                        <div className="col-md-4 mt-4 align-end d-flex justify-content-end h-25">
                             {/* <LinkStyled to="/chat"><b>Enviar mensagem</b></LinkStyled> */}
-                            {sessionStorage.getItem('isEditor') === 'false' &&
+                            {sessionStorage.getItem('isEditor') === 'false'
+                                ?
                                 <LinkStyled to={`/pagamento/${id}/${perfil?.valor ?? ''}`}><b>Contratar</b></LinkStyled>
+                                :
+                                <LinkStyled to="/perfil" className="btn btn-dark text-white ">Editar</LinkStyled>
                             }
                         </div>
+
                     </div>
-                </div>
 
                     <div className="row mt-5">
                         <div className="h3">
@@ -146,7 +171,7 @@ export default function Portfolio() {
                         </div>
                         {sessionStorage.getItem("isEditor") === "true" && (
                             <div className="col-md-12 text-end">
-                                <button onClick={() => setShowModal(true)} className="btn btn-primary">
+                                <button onClick={() => setShowModal(true)} className="btn btn-primary mb-5 me-2">
                                     Adicionar vídeo
                                 </button>
                             </div>
@@ -165,34 +190,22 @@ export default function Portfolio() {
                                 </div>
                             )
                         )}
-
-                    <div className="row">
-                        {videos.map((videoId) => (
-                            <div className="col-md-3" key={videoId}>
-                                <Card style={{ width: "18rem" }}>
-                                    <a href={`https://www.youtube.com/watch?v=${videoId}`} target="_blank" rel="noopener noreferrer">
-                                        <Card.Img variant="top" src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`} />
-                                    </a>
-                                    <Card.Body>
-                                        <Card.Title></Card.Title>
-                                        <Card.Text></Card.Text>
-                                    </Card.Body>
-                                    <ListGroup className="list-group-flush">
-                                        <ListGroup.Item></ListGroup.Item>
-                                    </ListGroup>
-                                    <Card.Body className="text-center">
-                                        <Card.Link href={`https://www.youtube.com/watch?v=${videoId}`} target="_blank" rel="noopener noreferrer">
-                                            Assistir
-                                        </Card.Link>
-                                        {/* Aqui está o link de download do vídeo
-                                        <Card.Link href={`https://www.youtube.com/watch?v=${videoId}`} target="_blank" rel="noopener noreferrer">Download</Card.Link> */}
-                                    </Card.Body>
-                                </Card>
+                        <Overflow>
+                            <div className="row">
+                                {videos.map((videoId) => (
+                                    <div className="col-md-3 mt-4" key={videoId}>
+                                        <AnimatedCard className="card">
+                                            <img src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`} width={300} />
+                                            <div className="card-body text-center">
+                                                <a href={`https://www.youtube.com/watch?v=${videoId}`} className="nav-link" >Assistir</a>
+                                            </div>
+                                        </AnimatedCard>
+                                    </div>
+                                ))}
                             </div>
-                        ))}
-
+                        </Overflow>
                     </div>
-                </div>
+                </CardStyled>
                 <Modal show={showModal} onHide={() => setShowModal(false)}>
                     <Modal.Header closeButton>
                         <Modal.Title>Adicionar Vídeo</Modal.Title>

@@ -28,6 +28,8 @@ function PedidoEditor() {
     const [showModal, setShowModal] = useState(false);
     const [newVideoLink, setNewVideoLink] = useState("");
 
+    const [videoIds, setVideosIds] = useState<string[]>([]);
+
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
@@ -40,7 +42,8 @@ function PedidoEditor() {
                     };
                     const response = await axios.get(`${apiUrl}/orders/${id}`, config);
                     setOrderData(response.data);
-                    console.log(response.data);
+                  
+                    
                 } else {
                     throw new Error('Token não encontrado na sessionStorage. Faça o login para obter um token válido.');
                 }
@@ -111,7 +114,7 @@ function PedidoEditor() {
 
     return (
         <>
-            <Header />
+            {/* <Header /> */}
             <DashboardHeader />
             <Container>
                 <div className="row">
@@ -129,8 +132,7 @@ function PedidoEditor() {
                                     <OrderDetail><b>Descrição:</b> {orderData.desc}</OrderDetail>
                                     <OrderDetail><b>Skills:</b> {orderData.skills}</OrderDetail>
                                     <OrderDetail><b>ID do Pedido:</b> {orderData.orderId}</OrderDetail>
-                                    <OrderDetail><b>Link:</b>{" "}<a href={orderData.link} target="_blank" rel="noopener noreferrer">Clique aqui</a>
-                                    </OrderDetail>
+                                    <OrderDetail><b>Link:</b>{" "}<a href={orderData.link} target="_blank" rel="noopener noreferrer">Clique aqui</a></OrderDetail>
                                 </>
                             )}
                         </OrderContainer>

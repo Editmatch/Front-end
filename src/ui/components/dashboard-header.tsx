@@ -10,6 +10,8 @@ function DashboardHeader() {
 
     const isEditor = sessionStorage.getItem('isEditor') == 'true';
 
+    const loggedUserName = sessionStorage.getItem('usuario');
+
     const navigate = useNavigate();
 
     const idPortfolio = `/portfolio/${sessionStorage.getItem('userId')}`
@@ -25,6 +27,12 @@ function DashboardHeader() {
         navigate('/login')
     };
 
+    const DivDark = styled.div`
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+
+    `;
+
+
     const LinkStyled = styled(Link)`
         color: #ffff;
         text-decoration: none;
@@ -36,8 +44,14 @@ function DashboardHeader() {
     `
 
     return (
-        <div className="row bg-dark p-3">
+        <DivDark className="bg-dark p-2">
+            <div className="row">
+                <div className="col-md-12 text-center">
+                    <img src={logo} alt="logo" />
+                </div>
+            </div>
             <ul className="nav justify-content-center">
+               
                 <li className="nav-item">
                     <LinkStyled className="nav-link" to={isEditor ? '/carteira' : '/projetos'}>{isEditor ? 'Carteira' : 'Projetos'}</LinkStyled>
                 </li>
@@ -85,7 +99,7 @@ function DashboardHeader() {
                     </Button>
                 </Modal.Footer>
             </Modal>
-        </div>
+        </DivDark>
     );
 }
 
