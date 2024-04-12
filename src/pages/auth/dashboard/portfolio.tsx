@@ -165,9 +165,11 @@ export default function Portfolio() {
 
                     </div>
 
-                    <div className="row mt-5">
-                        <div className="h3">
-                            <h3>Videos editados</h3>
+                    <div className="row">
+                        <div className="col-md-6">
+                            <div className="h5 mt-5">
+                                <h5>Videos editados</h5>
+                            </div>
                         </div>
                         {sessionStorage.getItem("isEditor") === "true" && (
                             <div className="col-md-12 text-end">

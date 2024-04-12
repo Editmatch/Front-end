@@ -62,7 +62,7 @@ function DashboardHeader() {
                 </li> */}
 
                 <li className="nav-item">
-                    <LinkStyled className="nav-link" to={isEditor ? '/produtores' : '/editores'}>{isEditor ? 'Produtores' : 'Freelancers'}</LinkStyled>
+                    <LinkStyled className="nav-link" to={isEditor ? '/produtores' : '/editores'}>{isEditor ? 'Projetos' : 'Freelancers'}</LinkStyled>
                 </li>
                 <li className="nav-item">
                     <LinkStyled className="nav-link" to="/perfil">Perfil</LinkStyled>
