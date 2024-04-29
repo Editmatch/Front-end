@@ -16,8 +16,8 @@ export function Wallet() {
 
     const { apiUrl } = useEnvironment();
 
-    const [saldoAtual, setSaldoAtual] = useState('R$ 0.00');
-    const [saldoTotal, setSaldoTotal] = useState('R$ 0,00');
+    const [saldoAtual, setSaldoAtual] = useState('R$ 0');
+    const [saldoTotal, setSaldoTotal] = useState('R$ 0');
     const [extrato, setExtrato] = useState([]);
     const [modalOpen, setModalOpen] = useState(false); // Estado para controlar se o modal está aberto
     const [valorSaque, setValorSaque] = useState(''); // Estado para armazenar o valor do saque
@@ -102,7 +102,7 @@ export function Wallet() {
                         <Card className="card p-3">
                             <div className="card-body">
                                 <h5 className="card-title">Ganhos totais</h5>
-                                <p className="card-text">R$ {saldoTotal}</p>
+                                <p className="card-text">{saldoTotal}</p>
                             </div>
                         </Card>
                     </div>
@@ -110,7 +110,7 @@ export function Wallet() {
                         <Card className="card p-3">
                             <div className="card-body">
                                 <h5 className="card-title">Saldo disponível</h5>
-                                <p className="card-text">R$ {saldoAtual}</p>
+                                <p className="card-text">{saldoAtual}</p>
                             </div>
                         </Card>
                     </div>

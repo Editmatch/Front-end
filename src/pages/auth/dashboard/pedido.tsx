@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useEnvironment } from "../../../data/contexts/enviromentContext";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import styled from "styled-components";
 import Header from "../../../ui/components/header";
@@ -34,7 +34,10 @@ function Pedido() {
     const [error, setError] = useState<string | null>(null);
     const [videoId, setVideoId] = useState("");
 
+    const navigate = useNavigate();
+
     useEffect(() => {
+        
         const fetchData = async () => {
             setIsLoading(true);
             try {
@@ -93,6 +96,7 @@ function Pedido() {
 
             if (response.status >= 200 && response.status < 300) {
                 alert("Novo vídeo vinculado a você, parabéns! O link também foi enviado para o seu email!");
+                navigate("/videos")
             } else {
                 alert("Ocorreu um erro ao vincular o vídeo. Por favor, tente novamente mais tarde.");
             }
