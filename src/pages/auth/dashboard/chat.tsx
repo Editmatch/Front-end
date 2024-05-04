@@ -39,7 +39,7 @@ function Chat() {
     ];
     return (
         <div>
-            <Header />
+            {/* <Header /> */}
             <DashboardHeader />
             <MDBContainer fluid className="py-5" style={{ backgroundColor: "#FFFFFF" }}>
                 <MDBRow>

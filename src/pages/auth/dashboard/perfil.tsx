@@ -140,7 +140,7 @@ function EditInfo() {
 
     return (
         <>
-            <Header />
+            {/* <Header /> */}
             <DashboardHeader />
             <div className="container">
                 <div className="card">

@@ -3,6 +3,7 @@ import logo from '../../ui/images/logo.png';
 import { FormEvent, useState } from 'react';
 import axios from 'axios';
 import { useEnvironment } from '../../data/contexts/enviromentContext';
+import styled from 'styled-components';
 
 function Registro() {
   const { apiUrl } = useEnvironment();
@@ -71,8 +72,19 @@ function Registro() {
     }
   };
 
+
+const LinkStyled = styled(Link)`
+text-decoration: none;
+color: black;
+&:hover {
+    color: blue;
+}`;
+
   return (
     <>
+      <div className="row">
+        <LinkStyled to="/selecionar-perfil" className="m-2">Voltar</LinkStyled>
+      </div>
       <section className="vh-50 gradient-custom">
         <div className="container py-5 h-100">
           <div className="row d-flex justify-content-center align-items-center h-100">

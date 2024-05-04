@@ -4,7 +4,6 @@ import DashboardHeader from '../../../ui/components/dashboard-header';
 import Header from '../../../ui/components/header';
 import styled from 'styled-components';
 import axios from 'axios';
-import Order from '../../../ui/components/order';
 import { Link } from 'react-router-dom';
 import { useEnvironment } from '../../../data/contexts/enviromentContext';
 
@@ -21,16 +20,13 @@ function Produtores() {
     const [projects, setProjects] = useState([]);
     const [showModal, setShowModal] = useState(false);
 
-    const userId = sessionStorage.getItem('userId');
-
     const fetchProjects = () => {
-        axios.get(`${apiUrl}/orders`, {
+        axios.get(`${apiUrl}/orders/disponivel`, {
             headers: {
                 Authorization: `Bearer ${sessionStorage.getItem('authToken')}`
             }
         }).then((response) => {
             setProjects(response.data)
-            console.log(response.data)
         }).catch((error) => {
             console.log(error)
         })
@@ -41,7 +37,7 @@ function Produtores() {
 
         const intervalId = setInterval(() => {
             fetchProjects();
-        }, 10000);
+        }, 20000);
 
         return () => clearInterval(intervalId);
     }, []);
@@ -100,8 +96,6 @@ const LinkStylled = styled(Link)`
     text-decoration: none;
     color: black;
 `;
-
-
     return (
         <div>
             <Header />
@@ -116,7 +110,7 @@ const LinkStylled = styled(Link)`
 
                             <div className="col-md-12 mt-5">
                                 <CarouselContainer>
-                                    <Carousel controls={true}>
+                                    <Carousel controls={true} slide={true}>
                                         {videosChuncks.map((chunk, index) => (
                                             <Carousel.Item key={index}>
                                                 <Row>

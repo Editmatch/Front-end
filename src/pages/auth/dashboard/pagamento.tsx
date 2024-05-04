@@ -45,7 +45,7 @@ const Pagamento: React.FC = () => {
   const { apiUrl } = useEnvironment();
   const { id } = useParams();
 
-  const { valor } = useParams<{ valor: string }>(); // Use a tipagem para garantir que o tipo do valor seja string
+  const { valor } = useParams<{ valor: string }>();
 
 
   const [nomePagante, setNomePagante] = useState(sessionStorage.getItem('usuario') || '');
@@ -115,10 +115,10 @@ const Pagamento: React.FC = () => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <DashboardHeader />
-      <PagamentoContainer>
-        <h2>Tela de Pagamento</h2>
+      <PagamentoContainer className="mt-5">
+        <h2>Tela de pagamento</h2>
         <form onSubmit={handleSubmit}>
           <div>
             <label htmlFor="nomePagante">Nome do Pagante:</label>

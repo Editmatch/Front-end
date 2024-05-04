@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useEnvironment } from "../../../data/contexts/enviromentContext";
-import { useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { Container, Button, Modal, Form } from "react-bootstrap";
 import styled from "styled-components";
 import Header from "../../../ui/components/header";
@@ -28,6 +28,9 @@ function PedidoEditor() {
     const [showModal, setShowModal] = useState(false);
     const [newVideoLink, setNewVideoLink] = useState("");
 
+    const [videoIds, setVideosIds] = useState<string[]>([]);
+
+    const navigate = useNavigate();
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
@@ -40,7 +43,8 @@ function PedidoEditor() {
                     };
                     const response = await axios.get(`${apiUrl}/orders/${id}`, config);
                     setOrderData(response.data);
-                    console.log(response.data);
+                  
+                    
                 } else {
                     throw new Error('Token não encontrado na sessionStorage. Faça o login para obter um token válido.');
                 }
@@ -63,21 +67,17 @@ function PedidoEditor() {
 
     const handleSaveNewLink = async () => {
         try {
-            // Verifique se o novo link não está vazio
             if (!newVideoLink) {
                 alert('Por favor, insira o novo link do vídeo editado.');
                 return;
             }
     
-            // Construa o objeto de configuração com o token de autenticação
             const config = {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             };
     
-            // Construa o corpo da solicitação com o novo link
-            // Faça a solicitação PATCH para o endpoint
             await axios.patch(`${apiUrl}/orders/${id}/finish`,
                 null,
                 {
@@ -88,11 +88,11 @@ function PedidoEditor() {
                 }
             );
     
-            // Fechar o modal após o salvamento bem-sucedido
             setShowModal(false);
     
-            // Exibir uma mensagem de sucesso
-            alert('Novo link salvo com sucesso!');
+            alert('Video finalizado com sucesso!');
+            navigate("/videos")
+
         } catch (error) {
             // Lidar com erros
             console.error('Erro ao salvar novo link:', error);
@@ -111,7 +111,7 @@ function PedidoEditor() {
 
     return (
         <>
-            <Header />
+            {/* <Header /> */}
             <DashboardHeader />
             <Container>
                 <div className="row">
@@ -129,13 +129,12 @@ function PedidoEditor() {
                                     <OrderDetail><b>Descrição:</b> {orderData.desc}</OrderDetail>
                                     <OrderDetail><b>Skills:</b> {orderData.skills}</OrderDetail>
                                     <OrderDetail><b>ID do Pedido:</b> {orderData.orderId}</OrderDetail>
-                                    <OrderDetail><b>Link:</b>{" "}<a href={orderData.link} target="_blank" rel="noopener noreferrer">Clique aqui</a>
-                                    </OrderDetail>
+                                    <OrderDetail><b>Link:</b>{" "}<a href={orderData.link} target="_blank" rel="noopener noreferrer">Clique aqui</a></OrderDetail>
                                 </>
                             )}
                         </OrderContainer>
                         <div className="col-md-12 d-flex justify-content-end mb-2">
-                            <Button variant="primary" onClick={handleOpenModal}>Marcar como concluído</Button>
+                            <Button variant="primary" onClick={handleOpenModal}>Marcar como finalizdo</Button>
                         </div>
                     </div>
                 </div>
