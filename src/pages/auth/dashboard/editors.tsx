@@ -82,15 +82,11 @@ function Editores() {
     margin: 5px 0;
     color: #666;
 `;
-
-
-
     return (
         <div>
             {/* <Header /> */}
             <DashboardHeader />
             <div className="container">
-                <ProjectsCount />
                 <div className="row">
                     <p className='font-weight-bold'>Destaques</p>
                     <div className="col-md-12">
@@ -137,42 +133,6 @@ function Editores() {
                                         {chunk.map((editor: any) => (
                                             <Col md={3} key={editor.id}>
                                                <CardLink to={`/portfolio/${editor.id}`}>
-                                                    <CardContainer>
-                                                        <ProfileImage src={editor.photoProfileData ? `data:image/jpeg;base64,${editor.photoProfileData}` : defaultImage} />
-                                                        <Name>{editor.nome}</Name>
-                                                        <Skill>
-                                                            {editor.habilidades > 0 ? (
-                                                                <ul>
-                                                                    {editor.habilidades.map((habilidade: any, index: any) => (
-                                                                        <li key={index}>{habilidade}</li>
-                                                                    ))}
-                                                                </ul>
-                                                            ) : (
-                                                                'Nenhuma'
-                                                            )}
-                                                        </Skill>
-                                                        <Skill>R$ {editor.valorHora}</Skill>
-                                                    </CardContainer>
-                                                </CardLink>
-                                            </Col>
-                                        ))}
-                                    </Row>
-                                </Carousel.Item>
-                            ))}
-                        </Carousel>
-                    </div>
-                </div>
-
-                <div className="row mt-5">
-                    <p className='font-weight-bold'>Destaques</p>
-                    <div className="col-md-12">
-                        <Carousel wrap>
-                            {editorsChunks.map((chunk, index) => (
-                                <Carousel.Item key={index}>
-                                    <Row>
-                                        {chunk.map((editor: any) => (
-                                            <Col md={3} key={editor.id}>
-                                                <CardLink to={`/portfolio/${editor.id}`}>
                                                     <CardContainer>
                                                         <ProfileImage src={editor.photoProfileData ? `data:image/jpeg;base64,${editor.photoProfileData}` : defaultImage} />
                                                         <Name>{editor.nome}</Name>

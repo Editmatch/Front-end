@@ -96,8 +96,6 @@ const LinkStylled = styled(Link)`
     text-decoration: none;
     color: black;
 `;
-
-
     return (
         <div>
             <Header />

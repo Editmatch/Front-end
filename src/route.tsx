@@ -17,6 +17,7 @@ import Pagamento from './pages/auth/dashboard/pagamento';
 import Pedido from './pages/auth/dashboard/pedido';
 import Videos from './pages/auth/dashboard/videos';
 import PedidoEditor from './pages/auth/dashboard/pedidoEditor';
+import PedidoCliente from './pages/auth/dashboard/pedido-cliente';
 
 function Rotas() {
     return (
@@ -36,6 +37,7 @@ function Rotas() {
                 <Route path="/carteira" element={<Wallet />} />
                 <Route path="/pagamento/:id/:valor" element={<Pagamento />} />
                 <Route path="/pedido/:id" element={<Pedido />} />
+                <Route path="/meu-pedido/:id" element={<PedidoCliente />} />
                 <Route path="/pedidoEditor/:id" element={<PedidoEditor />} />
                 <Route path="/videos" element={<Videos />} />
             </Routes>

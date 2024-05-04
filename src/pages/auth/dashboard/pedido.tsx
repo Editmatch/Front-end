@@ -37,7 +37,7 @@ function Pedido() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        
+
         const fetchData = async () => {
             setIsLoading(true);
             try {
@@ -59,8 +59,8 @@ function Pedido() {
                         })
                         .filter((videoId: string | null): videoId is string => videoId !== null);
 
-                        setVideoId(videoId);
-                 
+                    setVideoId(videoId);
+
                 } else {
                     throw new Error(
                         "Token não encontrado na sessionStorage. Faça o login para obter um token válido."
@@ -124,38 +124,41 @@ function Pedido() {
                 </div>
                 <div className="row">
                     <StyledCard className="card mt-5">
-                            {orderData && (
-                                <>
-                                    <div className="row">
-                                        <div className="col-md-6">
-                                            <OrderDetail>
-                                                <b>Nome do cliente:</b> {orderData.nome}
-                                            </OrderDetail>
-                                            <OrderDetail>
-                                                <b>Título:</b> {orderData.title}
-                                            </OrderDetail>
-                                            <OrderDetail>
-                                                <b>Descrição:</b> {orderData.desc}
-                                            </OrderDetail>
-                                            <OrderDetail>
-                                                <b>Skills:</b> {orderData.skills}
-                                            </OrderDetail>
-                                            <OrderDetail>
-                                                <b>ID do Pedido:</b> {orderData.orderId}
-                                            </OrderDetail>
-                                            <OrderDetail>
-                                                <b>Link:</b>{" "}
-                                                <a href={orderData.link} target="_blank" rel="noopener noreferrer">
-                                                    Clique aqui
-                                                </a>
-                                            </OrderDetail>
-                                        </div>
-                                        <div className="col-md-6 ">
-                                            <Imagem src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`} />
-                                        </div>
+                        {orderData && (
+                            <>
+                                <div className="row">
+                                    <div className="col-md-6">
+                                        <OrderDetail>
+                                            <b>Nome do cliente:</b> {orderData.nome}
+                                        </OrderDetail>
+                                        <OrderDetail>
+                                            <b>Título:</b> {orderData.title}
+                                        </OrderDetail>
+                                        <OrderDetail>
+                                            <b>Descrição:</b> {orderData.desc}
+                                        </OrderDetail>
+                                        <OrderDetail>
+                                            <b>Skills:</b> {orderData.skills}
+                                        </OrderDetail>
+                                        <OrderDetail>
+                                            <b>ID do Pedido:</b> {orderData.orderId}
+                                        </OrderDetail>
+                                        <OrderDetail>
+                                            <b>Download:</b>{" "}
+                                            <a href={orderData.link} target="_blank" rel="noopener noreferrer">
+                                                Clique aqui
+                                            </a>
+                                        </OrderDetail>
                                     </div>
-                                </>
-                            )}
+                                    <div className="col-md-6 ">
+                                        <video controls width="640" height="360">
+                                            <source src={orderData.link} type="video/mp4" />
+                                            Seu navegador não suporta o elemento de vídeo.
+                                        </video>
+                                    </div>
+                                </div>
+                            </>
+                        )}
                         <div className="col-md-12 d-flex justify-content-end mt-3">
                             <button className="btn btn-primary" onClick={handleGetVideo}>
                                 Pegar vídeo

@@ -33,7 +33,7 @@ export default function Portfolio() {
         linkYtVideoId: [],
     });
     const [loadingVideos, setLoadingVideos] = useState(true);
-
+    const [loadingPerfil, setLoadingPerfil] = useState(true); 
     const handleAddVideo = () => {
         const payload = {
             link: newVideoUrl,
@@ -53,6 +53,7 @@ export default function Portfolio() {
     };
 
     const loadVideos = () => {
+        setLoadingPerfil(true); // Indica que o perfil está sendo carregado
         setLoadingVideos(true);
         axios
             .get<Perfil>(`${apiUrl}/portfolios/${id}`, {
@@ -62,7 +63,6 @@ export default function Portfolio() {
                 },
             })
             .then((response) => {
-                console.log(response.data);
                 setPerfil(response.data);
                 if (response.data.linkYtVideoId) {
                     const videoIds = response.data.linkYtVideoId
@@ -123,10 +123,11 @@ export default function Portfolio() {
             transform: 1.2;
         }`;
 
-    const Overflow = styled.div`
-            height: 400px;
-            overflow-y: scroll;
+        const Overflow = styled.div`
+        height: 400px;
+        overflow-y: scroll;
     `;
+    
 
     return (
         <div>
@@ -134,6 +135,8 @@ export default function Portfolio() {
             <DashboardHeader />
             <div className="container">
                 <CardStyled className="card mt-3">
+
+
                     <div className="row mt-3 p-4">
 
                         <div className="col-md-3">
