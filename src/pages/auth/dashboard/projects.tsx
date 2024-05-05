@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { Carousel, Row, Col, Spinner } from "react-bootstrap";
+import { Carousel, Row, Col, Spinner, Button, Modal } from "react-bootstrap";
 import DashboardHeader from "../../../ui/components/dashboard-header";
 import styled from "styled-components";
 import axios from "axios";
 import { useEnvironment } from "../../../data/contexts/enviromentContext";
 import { Link } from "react-router-dom";
 import ProjectsCount from "../../../ui/components/projects-count";
+import Order from "../../../ui/components/order";
 
 function Videos() {
   const { apiUrl } = useEnvironment();
@@ -15,16 +16,17 @@ function Videos() {
     width: 100%;
   `;
 
-  const [loading, setLoading] = useState(true); // Estado de carregamento
+  const [loading, setLoading] = useState(true);
   const [inProgressOrders, setInProgressOrders] = useState([]);
   const [completedOrders, setCompletedOrders] = useState([]);
   const [cancelledOrders, setCancelledOrders] = useState([]);
   const [availableOrders, setAvailableOrders] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   const userId = sessionStorage.getItem("userId");
 
   const fetchProjects = () => {
-    setLoading(true); // Ativar o estado de carregamento
+    setLoading(true);
     axios
       .get(`${apiUrl}/orders/order-client?id=${userId}`, {
         headers: {
@@ -38,16 +40,16 @@ function Videos() {
           cancelledOrders,
           availableOrders,
         } = response.data;
-        setInProgressOrders(inProgressOrders);
-        setCompletedOrders(completedOrders);
-        setCancelledOrders(cancelledOrders);
-        setAvailableOrders(availableOrders);
+        setInProgressOrders(inProgressOrders || []);
+        setCompletedOrders(completedOrders || []);
+        setCancelledOrders(cancelledOrders || []);
+        setAvailableOrders(availableOrders || []);
       })
       .catch((error) => {
         console.log(error);
       })
       .finally(() => {
-        setLoading(false); // Desativar o estado de carregamento
+        setLoading(false);
       });
   };
 
@@ -80,7 +82,7 @@ function Videos() {
     box-shadow: 0 0px 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin-bottom: 20px;
-    transition: transform 0.2s ease-in; /* Corrigido */
+    transition: transform 0.2s ease-in;
     &:hover {
       transform: scale(1.03);
     }
@@ -108,21 +110,22 @@ function Videos() {
     color: black;
   `;
 
-  
   const LoadingMessage = styled.p`
     text-align: center;
     margin-top: 2rem;
     color: #666666;
   `;
 
+  const handleModalClose = () => setShowModal(false);
+  const handleModalShow = () => setShowModal(true);
+
   return (
     <div>
       <DashboardHeader />
       <div className="container">
-        {/* Exibir mensagem de carregamento se estiver carregando */}
         {loading && (
           <LoadingMessage>
-            <Spinner className="text-center mt-5" variant="primary" /> 
+            <Spinner className="text-center mt-5" variant="primary" />
           </LoadingMessage>
         )}
         {!loading && (
@@ -135,6 +138,11 @@ function Videos() {
             />
             {availableOrders.length > 0 ? (
               <div className="row mt-5">
+                <div className="d-flex justify-content-end mt-2">
+                  <Button onClick={handleModalShow} className="btn btn-dark">
+                    Publicar projeto
+                  </Button>
+                </div>
                 <div className="col-md-12">
                   <h5>
                     <b>Projetos disponíveis</b>
@@ -146,7 +154,9 @@ function Videos() {
                           <Row>
                             {chunk.map((project) => (
                               <Col md={3} key={project.orderId}>
-                                <LinkStyled to={`/meu-pedido/${project.orderId}`}>
+                                <LinkStyled
+                                  to={`/meu-pedido/${project.orderId}`}
+                                >
                                   <div>
                                     <CardContainer>
                                       <CardTitle>{project.title}</CardTitle>
@@ -156,9 +166,13 @@ function Videos() {
                                       <CardSkills>
                                         {project.skills
                                           .split(",")
-                                          .map((skill: string, index: number) => (
-                                            <span key={index}>{skill.trim()}</span>
-                                          ))}
+                                          .map(
+                                            (skill: string, index: number) => (
+                                              <span key={index}>
+                                                {skill.trim()}
+                                              </span>
+                                            )
+                                          )}
                                       </CardSkills>
                                     </CardContainer>
                                   </div>
@@ -174,17 +188,20 @@ function Videos() {
               </div>
             ) : (
               <div className="row mt-5">
-                <div className="col-md-12">
-                  <h5>
-                    <b>Projetos disponíveis</b>
-                  </h5>
-                </div>
+                <h5>
+                  <b>Projetos disponiveis</b>
+                </h5>
                 <div className="col-md-12">
                   <div className="card">
                     <div className="card-body text-center">
-                      <h5 className="card-title">
-                        Nenhum projeto disponível encontrado
-                      </h5>
+                      <h5 className="card-title">Nenhum projeto encontrado</h5>
+                      <p className="card-text">Não há projetos disponíveis</p>
+                      <Button
+                        onClick={handleModalShow}
+                        className="btn btn-dark"
+                      >
+                        Publicar projeto
+                      </Button>
                     </div>
                   </div>
                 </div>
@@ -195,7 +212,7 @@ function Videos() {
               <div className="row mt-5">
                 <div className="col-md-6">
                   <h5>
-                    <b>Projetos em andamento</b>
+                    <b>Projetos em disponiveis</b>
                   </h5>
                 </div>
                 <div className="col-md-6 d-flex justify-content-end">
@@ -211,7 +228,9 @@ function Videos() {
                           <Row>
                             {chunk.map((project) => (
                               <Col md={3} key={project.orderId}>
-                                <LinkStyled to={`/meu-pedido/${project.orderId}`}>
+                                <LinkStyled
+                                  to={`/meu-pedido/${project.orderId}`}
+                                >
                                   <div>
                                     <CardContainer>
                                       <CardTitle>{project.title}</CardTitle>
@@ -221,9 +240,13 @@ function Videos() {
                                       <CardSkills>
                                         {project.skills
                                           .split(",")
-                                          .map((skill: string, index: number) => (
-                                            <span key={index}>{skill.trim()}</span>
-                                          ))}
+                                          .map(
+                                            (skill: string, index: number) => (
+                                              <span key={index}>
+                                                {skill.trim()}
+                                              </span>
+                                            )
+                                          )}
                                       </CardSkills>
                                     </CardContainer>
                                   </div>
@@ -239,19 +262,14 @@ function Videos() {
               </div>
             ) : (
               <div className="row mt-5">
-                <div className="col-md-6">
-                  <h5>
-                    <b>Projetos em andamento</b>
-                  </h5>
-                </div>
+                <h5>
+                  <b>Projetos em andamento</b>
+                </h5>
                 <div className="col-md-12">
                   <div className="card">
                     <div className="card-body text-center">
-                      <h5 className="card-title">Nenhum projeto em andamento encontrado</h5>
-                      <p className="card-text">Não há projetos disponíveis</p>
-                      <Link to="/produtores" className="btn btn-dark">
-                        Publicar novo projeto
-                      </Link>
+                      <h5 className="card-title">Nenhum projeto encontrado</h5>
+                        Aguarde até que um editor aceite seus projetos
                     </div>
                   </div>
                 </div>
@@ -271,7 +289,9 @@ function Videos() {
                           <Row>
                             {chunk.map((project) => (
                               <Col md={3} key={project.orderId}>
-                                <LinkStyled to={`/meu-pedido/${project.orderId}`}>
+                                <LinkStyled
+                                  to={`/meu-pedido/${project.orderId}`}
+                                >
                                   <div>
                                     <CardContainer>
                                       <CardTitle>{project.title}</CardTitle>
@@ -281,9 +301,13 @@ function Videos() {
                                       <CardSkills>
                                         {project.skills
                                           .split(",")
-                                          .map((skill: string, index: number) => (
-                                            <span key={index}>{skill.trim()}</span>
-                                          ))}
+                                          .map(
+                                            (skill: string, index: number) => (
+                                              <span key={index}>
+                                                {skill.trim()}
+                                              </span>
+                                            )
+                                          )}
                                       </CardSkills>
                                     </CardContainer>
                                   </div>
@@ -303,8 +327,6 @@ function Videos() {
                   <h5>
                     <b>Projetos finalizados</b>
                   </h5>
-                </div>
-                <div className="col-md-12">
                   <div className="card">
                     <div className="card-body text-center">
                       <h5 className="card-title">
@@ -329,7 +351,9 @@ function Videos() {
                           <Row>
                             {chunk.map((project) => (
                               <Col md={3} key={project.orderId}>
-                                <LinkStyled to={`/meu-pedido/${project.orderId}`}>
+                                <LinkStyled
+                                  to={`/meu-pedido/${project.orderId}`}
+                                >
                                   <div>
                                     <CardContainer>
                                       <CardTitle>{project.title}</CardTitle>
@@ -339,9 +363,13 @@ function Videos() {
                                       <CardSkills>
                                         {project.skills
                                           .split(",")
-                                          .map((skill: string, index: number) => (
-                                            <span key={index}>{skill.trim()}</span>
-                                          ))}
+                                          .map(
+                                            (skill: string, index: number) => (
+                                              <span key={index}>
+                                                {skill.trim()}
+                                              </span>
+                                            )
+                                          )}
                                       </CardSkills>
                                     </CardContainer>
                                   </div>
@@ -361,8 +389,6 @@ function Videos() {
                   <h5>
                     <b>Projetos cancelados</b>
                   </h5>
-                </div>
-                <div className="col-md-12">
                   <div className="card">
                     <div className="card-body text-center">
                       <h5 className="card-title">
@@ -375,6 +401,15 @@ function Videos() {
             )}
           </>
         )}
+
+        <Modal show={showModal} onHide={handleModalClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Criar Novo Projeto</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Order onClose={handleModalClose} />
+          </Modal.Body>
+        </Modal>
       </div>
     </div>
   );
