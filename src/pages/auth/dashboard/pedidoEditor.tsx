@@ -36,7 +36,7 @@ function PedidoEditor() {
   const [videoIds, setVideosIds] = useState<string[]>([]);
   const [videoTitle, setVideoTitle] = useState("");
   const [videoEditado, setVideoEditado] = useState("");
-  const [loading, setLoading] = useState(false); // Adicionando o estado 'loading'
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
   useEffect(() => {

@@ -27,14 +27,17 @@ function Videos() {
                 Authorization: `Bearer ${sessionStorage.getItem('authToken')}`
             }
         }).then((response) => {
-            const { inProgressOrders, completedOrders, cancelledOrders } = response.data;
-            setInProgressOrders(inProgressOrders);
-            setCompletedOrders(completedOrders);
-            setCancelledOrders(cancelledOrders);
+            if (response.data && response.data.inProgressOrders) {
+                const { inProgressOrders, completedOrders, cancelledOrders } = response.data;
+                setInProgressOrders(inProgressOrders);
+                setCompletedOrders(completedOrders);
+                setCancelledOrders(cancelledOrders);
+            }
         }).catch((error) => {
             console.log(error);
         });
     };
+    
 
     useEffect(() => {
         fetchProjects();
@@ -55,9 +58,9 @@ function Videos() {
     };
 
 
-    const inProgressChunks = chunkArray(inProgressOrders, 4);
-    const completedChunks = chunkArray(completedOrders, 4);
-    const cancelledChunks = chunkArray(cancelledOrders, 4);
+    const inProgressChunks = inProgressOrders ? chunkArray(inProgressOrders, 4) : [];
+    const completedChunks = completedOrders ? chunkArray(completedOrders, 4) : [];
+    const cancelledChunks = cancelledOrders ? chunkArray(cancelledOrders, 4) : [];
 
     const CardContainer = styled.div`
         background-color: #ffffff;
@@ -156,7 +159,6 @@ function Videos() {
                 )
                 }
 
-                {/* Finalizados */}
                 {completedOrders.length > 0 ? (
                     <div className="row mt-5">
                         <div className="col-md-12">
