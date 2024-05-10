@@ -264,9 +264,9 @@ export default function Portfolio() {
           </Modal.Header>
           <Modal.Body>
             <div className="mb-3">
-              <label htmlFor="">Título do</label>
+              <label htmlFor="">Título do video</label>
               <input
-                type="text"
+                type="text" 
                 className="form-control"
                 onChange={(event) => setTitle(event.target.value)}
                 required
@@ -316,7 +316,3 @@ export default function Portfolio() {
     </div>
   );
 }
-function finnaly(arg0: () => void) {
-    throw new Error("Function not implemented.");
-}
-

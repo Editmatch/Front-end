@@ -19,8 +19,8 @@ export function Wallet() {
     const [saldoAtual, setSaldoAtual] = useState('R$ 0');
     const [saldoTotal, setSaldoTotal] = useState('R$ 0');
     const [extrato, setExtrato] = useState([]);
-    const [modalOpen, setModalOpen] = useState(false); // Estado para controlar se o modal está aberto
-    const [valorSaque, setValorSaque] = useState(''); // Estado para armazenar o valor do saque
+    const [modalOpen, setModalOpen] = useState(false); 
+    const [valorSaque, setValorSaque] = useState('');
 
     const userID = sessionStorage.getItem('userId');
 
@@ -37,8 +37,6 @@ export function Wallet() {
             }
           });
           
-          console.log('Resposta do servidor:', response.data);
-
           if (response.status === 200) {
             alert('Saque realizado com sucesso!');
             fetchData();
@@ -75,14 +73,11 @@ export function Wallet() {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('authToken'),
                     'Content-Type': 'application/json',
                 },
-                timeout: 15000, // Timeout de 15 segundos (em milissegundos)
+                timeout: 15000,
             });
-
-            console.log(response.data);
             setSaldoAtual(response.data.saldoAtual);
             setSaldoTotal(response.data.saldoTotal);
             setExtrato(response.data.transacoes);
-            console.log('Extrato:', response.data.transacoes)
         } catch (error) {
             if (axios.isCancel(error)) {
                 console.log('A solicitação foi cancelada devido ao timeout.');
@@ -94,7 +89,6 @@ export function Wallet() {
 
     return (
         <>
-            {/* <Header /> */}
             <DashboardHeader />
             <div className="container">
                 <div className="row mt-3 text-center p-4">
