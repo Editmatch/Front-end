@@ -6,6 +6,10 @@ import Backbutton from '../../ui/components/back-button';
 import axios from 'axios';
 import { Button, Modal } from 'react-bootstrap';
 import { useEnvironment } from '../../data/contexts/enviromentContext';
+import Toastify from 'toastify-js';
+import "toastify-js/src/toastify.css";
+
+
 function Login() {
 
   const { apiUrl } = useEnvironment();
@@ -51,19 +55,55 @@ function Login() {
 
           let route = sessionStorage.getItem('isEditor') === 'true' ? '/carteira' : '/projetos';
 
-          handleShowModal();
 
+          // Rest of the code...
+
+          Toastify({
+            text: "Login efetuado com sucesso!",
+            duration: 3000,
+            close: true,
+            gravity: "top",
+            position: "right",
+            stopOnFocus: true,
+            style: {
+              background: "#4caf50",
+              color: "#fff",
+            },
+          }).showToast();
+          
           setTimeout(() => {
             navigate(route);
           }, 2000);
 
         } else {
-          setLoginError(true);
+          Toastify({
+            text: "Preencha os campos e tente novamente!",
+            duration: 3000,
+            close: true,
+            gravity: "top",
+            position: "right",
+            stopOnFocus: true,
+            style: {
+              background: "red",
+              color: "#fff",
+            },
+          }).showToast();
           throw new Error('Ops! Ocorreu um erro interno.');
         }
       })
       .catch(error => {
-        setLoginError(true);
+        Toastify({
+          text: "Preencha os campos e tente novamente!",
+          duration: 3000,
+          close: true,
+          gravity: "top",
+          position: "right",
+          stopOnFocus: true,
+          style: {
+            background: "red",
+            color: "#fff",
+          },
+        }).showToast();
         console.log(error)
       });
   };

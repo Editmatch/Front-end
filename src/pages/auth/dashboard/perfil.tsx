@@ -4,6 +4,8 @@ import Header from '../../../ui/components/header';
 import DashboardHeader from '../../../ui/components/dashboard-header';
 import styled from 'styled-components';
 import { useEnvironment } from '../../../data/contexts/enviromentContext';
+import Toastify from 'toastify-js';
+import "toastify-js/src/toastify.css";  
 
 function EditInfo() {
 
@@ -126,7 +128,18 @@ function EditInfo() {
                 }
             }).then((res) => {
                 console.log(res.data)
-                alert("Dados atualizados com sucesso!")
+                Toastify({
+                    text: "Dados atualizados com sucesso!",
+                    duration: 3000,
+                    close: true,
+                    gravity: "top",
+                    position: "right",
+                    stopOnFocus: true,
+                    style: {
+                      background: "green",
+                      color: "#fff",
+                    },
+                  }).showToast();
             }).catch((err) => {
                 console.log(err);
             })

@@ -6,6 +6,8 @@ import { Container, Button, Modal, Form, Spinner } from "react-bootstrap";
 import styled from "styled-components";
 import Header from "../../../ui/components/header";
 import DashboardHeader from "../../../ui/components/dashboard-header";
+import Toastify from "toastify-js";
+import "toastify-js/src/toastify.css";
 
 const OrderDetail = styled.div`
   margin-bottom: 10px;
@@ -101,25 +103,48 @@ function PedidoEditor() {
 
   const handleSaveEditedVideo = async () => {
     try {
-      await axios.patch(`${apiUrl}/orders/${id}/finish?videoEditado=${videoEditado}`, null, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${sessionStorage.getItem("authToken")}`,
-        },
-      });
-  
+      await axios.patch(
+        `${apiUrl}/orders/${id}/finish?videoEditado=${videoEditado}`,
+        null,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${sessionStorage.getItem("authToken")}`,
+          },
+        }
+      );
+
       setShowModal(false);
-  
-      alert("Vídeo finalizado com sucesso!");
+
+      Toastify({
+        text: "Video editado salvo com sucesso!",
+        duration: 3000,
+        close: true,
+        gravity: "top",
+        position: "right",
+        stopOnFocus: true,
+        style: {
+          background: "green",
+          color: "#fff",
+        },
+      }).showToast();
       navigate("/videos");
     } catch (error) {
       console.error("Erro ao salvar novo link:", error);
-      alert(
-        "Ocorreu um erro ao salvar o novo link. Por favor, tente novamente mais tarde."
-      );
+      Toastify({
+        text: "Ocorreu um erro ao salvar o video editado. Tente novamente.",
+        duration: 3000,
+        close: true,
+        gravity: "top",
+        position: "right",
+        stopOnFocus: true,
+        style: {
+          background: "red",
+          color: "#fff",
+        },
+      }).showToast();
     }
   };
-  
 
   if (isLoading) {
     return <div>Carregando...</div>;
@@ -232,7 +257,11 @@ function PedidoEditor() {
               Salvando...
             </Button>
           ) : (
-            <Button variant="primary" onClick={handleSaveEditedVideo} type="submit">
+            <Button
+              variant="primary"
+              onClick={handleSaveEditedVideo}
+              type="submit"
+            >
               Concluir
             </Button>
           )}

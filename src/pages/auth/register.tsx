@@ -1,34 +1,47 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import logo from '../../ui/images/logo.png';
-import { FormEvent, useState } from 'react';
-import axios from 'axios';
-import { useEnvironment } from '../../data/contexts/enviromentContext';
-import styled from 'styled-components';
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import logo from "../../ui/images/logo.png";
+import { FormEvent, useState } from "react";
+import axios from "axios";
+import { useEnvironment } from "../../data/contexts/enviromentContext";
+import styled from "styled-components";
+import Toastify from "toastify-js";
+import "toastify-js/src/toastify.css";
 
 function Registro() {
   const { apiUrl } = useEnvironment();
 
   const [formData, setFormData] = useState({
-    email: '',
-    name: '',
-    lastName: '',
-    password: '',
-    confirmPassword: '',
-    hourValue: 'n/a',
-    pixKey: '',
+    email: "",
+    name: "",
+    lastName: "",
+    password: "",
+    confirmPassword: "",
+    hourValue: "n/a",
+    pixKey: "",
     skills: [],
   });
 
   const [step, setStep] = useState(1); // Estado para controlar a etapa do cadastro
 
-  const { email, name, lastName, password, confirmPassword, hourValue, pixKey, skills } = formData;
+  const {
+    email,
+    name,
+    lastName,
+    password,
+    confirmPassword,
+    hourValue,
+    pixKey,
+    skills,
+  } = formData;
 
   const navigate = useNavigate();
   const { rota } = useLocation().state;
   const endpoint = rota;
 
-  console.log(endpoint)
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  console.log(endpoint);
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
@@ -37,15 +50,29 @@ function Registro() {
     event.preventDefault();
 
     if (password !== confirmPassword) {
-      alert('As senhas não coincidem');
-      setFormData({ ...formData, password: '', confirmPassword: '' });
+      Toastify({
+        text: "Senhas não conferem!",
+        duration: 3000,
+        close: true,
+        gravity: "top",
+        position: "right",
+        stopOnFocus: true,
+        style: {
+          background: "#4caf50",
+          color: "#fff",
+        },
+      }).showToast();
+
+      setFormData({ ...formData, password: "", confirmPassword: "" });
       return;
     }
 
     try {
-
       const skillsArray = Array.isArray(skills) ? skills : [skills];
-      const trimmedSkills = skillsArray.length >= 1 ? skillsArray.map((skill: string) => skill.trim()) : null;
+      const trimmedSkills =
+        skillsArray.length >= 1
+          ? skillsArray.map((skill: string) => skill.trim())
+          : null;
 
       const response = await axios.post(endpoint, {
         name,
@@ -55,35 +82,70 @@ function Registro() {
         chavePix: formData.pixKey.length >= 1 ? pixKey : "",
         skills: formData.skills.length >= 1 ? trimmedSkills : null,
         valorHora: formData.hourValue.length >= 1 ? hourValue : null,
-        isEditor: endpoint === apiUrl + '/editores',
+        isEditor: endpoint === apiUrl + "/editores",
       });
 
       console.log(response.status);
 
       if (response.status === 201) {
-        alert('Cadastro realizado com sucesso!');
-        navigate('/login');
+        Toastify({
+          text: "Cadastro realizado com sucesso!",
+          duration: 3000,
+          close: true,
+          gravity: "top",
+          position: "right",
+          stopOnFocus: true,
+          style: {
+            background: "#4caf50",
+            color: "#fff",
+          },
+        }).showToast();
+
+        navigate("/login");
       } else {
-        alert('Ops! Ocorreu um erro durante o cadastro.');
+        Toastify({
+          text: "Preencha os campos e tente novamente!",
+          duration: 3000,
+          close: true,
+          gravity: "top",
+          position: "right",
+          stopOnFocus: true,
+          style: {
+            background: "red",
+            color: "#fff",
+          },
+        }).showToast();
       }
     } catch (error) {
-      console.error('Erro durante o cadastro:', error);
-      alert('Ops! Ocorreu um erro durante o cadastro.');
+      Toastify({
+        text: "Preencha os campos e tente novamente!",
+        duration: 3000,
+        close: true,
+        gravity: "top",
+        position: "right",
+        stopOnFocus: true,
+        style: {
+          background: "red",
+          color: "#fff",
+        },
+      }).showToast();
     }
   };
 
-
-const LinkStyled = styled(Link)`
-text-decoration: none;
-color: black;
-&:hover {
-    color: blue;
-}`;
+  const LinkStyled = styled(Link)`
+    text-decoration: none;
+    color: black;
+    &:hover {
+      color: blue;
+    }
+  `;
 
   return (
     <>
       <div className="row">
-        <LinkStyled to="/selecionar-perfil" className="m-2">Voltar</LinkStyled>
+        <LinkStyled to="/selecionar-perfil" className="m-2">
+          Voltar
+        </LinkStyled>
       </div>
       <section className="vh-50 gradient-custom">
         <div className="container py-5 h-100">
@@ -97,8 +159,12 @@ color: black;
                     </h2>
                     <p>Insira suas informações para realizar o cadastro.</p>
 
-                    {step === 1 && ( // Renderiza os campos da primeira etapa
-                      <form onSubmit={(event: FormEvent<HTMLFormElement>) => handleSubmit(event)}>
+                    {step === 1 && ( 
+                      <form
+                        onSubmit={(event: FormEvent<HTMLFormElement>) =>
+                          handleSubmit(event)
+                        }
+                      >
                         <div className="form form-dark mb-4">
                           <input
                             type="text"
@@ -153,8 +219,7 @@ color: black;
                             placeholder="Confirme a senha*"
                           />
                         </div>
-                        {rota === apiUrl + '/clientes' && (
-
+                        {rota === apiUrl + "/clientes" && (
                           <div className="form-outline form-dark mb-4">
                             <input
                               type="text"
@@ -167,23 +232,32 @@ color: black;
                           </div>
                         )}
 
-                        {rota !== apiUrl + '/clientes' && (
-                          <button className="btn btn-dark btn-lg px-5" onClick={() => setStep(2)}>
+                        {rota !== apiUrl + "/clientes" && (
+                          <button
+                            className="btn btn-dark btn-lg px-5"
+                            onClick={() => setStep(2)}
+                          >
                             Continuar
                           </button>
                         )}
 
-                        {rota === apiUrl + '/clientes' && (
-                          <button className="btn btn-dark btn-lg px-5" type="submit">
+                        {rota === apiUrl + "/clientes" && (
+                          <button
+                            className="btn btn-dark btn-lg px-5"
+                            type="submit"
+                          >
                             Concluir Cadastro
                           </button>
                         )}
-
                       </form>
                     )}
 
                     {step === 2 && ( // Renderiza os campos da segunda etapa
-                      <form onSubmit={(event: FormEvent<HTMLFormElement>) => handleSubmit(event)}>
+                      <form
+                        onSubmit={(event: FormEvent<HTMLFormElement>) =>
+                          handleSubmit(event)
+                        }
+                      >
                         <div className="form-outline form-dark mb-4">
                           <input
                             type="text"
@@ -217,7 +291,10 @@ color: black;
                           />
                         </div>
 
-                        <button className="btn btn-dark btn-lg px-5" type="submit">
+                        <button
+                          className="btn btn-dark btn-lg px-5"
+                          type="submit"
+                        >
                           Concluir Cadastro
                         </button>
                       </form>
@@ -231,7 +308,10 @@ color: black;
                       </a>
                     </p>
                     <p className="mb-0">
-                      Já tem uma conta? <Link to="/login" className="text-dark-50 fw-bold">Logar</Link>
+                      Já tem uma conta?{" "}
+                      <Link to="/login" className="text-dark-50 fw-bold">
+                        Logar
+                      </Link>
                     </p>
                   </div>
                 </div>

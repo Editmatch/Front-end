@@ -4,6 +4,8 @@ import Header from "../../../ui/components/header";
 import styled from 'styled-components';
 import axios from 'axios';
 import { useEnvironment } from '../../../data/contexts/enviromentContext';
+import Toastify from "toastify-js";
+import "toastify-js/src/toastify.css";
 
 const Card = styled.div`
     margin: 10px;
@@ -38,23 +40,68 @@ export function Wallet() {
           });
           
           if (response.status === 200) {
-            alert('Saque realizado com sucesso!');
+            Toastify({
+                text: "Saque realizado com sucesso!",
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                stopOnFocus: true,
+                style: {
+                  background: "green",
+                  color: "#fff",
+                },
+              }).showToast();
             fetchData();
           }
 
         } catch (error) {
           console.error('Erro ao realizar saque:', error);
+          Toastify({
+            text: "Ocorreu um erro ao realizar o saque. Tente novamente.",
+            duration: 3000,
+            close: true,
+            gravity: "top",
+            position: "right",
+            stopOnFocus: true,
+            style: {
+              background: "red",
+              color: "#fff",
+            },
+          }).showToast();
         }
     };
 
     const handleSaque = () => {
         if (!valorSaque || isNaN(parseFloat(valorSaque))) {
-            alert('Por favor, insira um valor válido para o saque.');
+            Toastify({
+                text: "Insira um valor valido para o saque",
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                stopOnFocus: true,
+                style: {
+                  background: "yellow",
+                  color: "#fff",
+                },
+              }).showToast();
             return;
         }
 
         if (parseFloat(valorSaque) < 0) {
-            alert('O valor do saque não pode ser negativo.');
+            Toastify({
+                text: "O valor do saque não pode ser negativo",
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                stopOnFocus: true,
+                style: {
+                  background: "yellow",
+                  color: "#fff",
+                },
+              }).showToast();
             return;
         }
 

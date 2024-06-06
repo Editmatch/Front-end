@@ -2,8 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Modal, Button, Form, Col, Row, Alert, Spinner } from 'react-bootstrap';
 import axios from 'axios';
 import { useEnvironment } from '../../data/contexts/enviromentContext';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import Toastify from 'toastify-js';
+import "toastify-js/src/toastify.css";
 
 interface OrderProps {
     onClose?: () => void;
@@ -81,11 +81,35 @@ const Order: React.FC<OrderProps> = ({ onClose }) => {
                 },
             });
 
-            alert('video postado com sucesso!');
+            Toastify({
+                text: "Video postado com sucesso!",
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                stopOnFocus: true,
+                style: {
+                  background: "green",
+                  color: "#fff",
+                },
+              }).showToast();
+
             onClose?.();
         } catch (error) {
             console.error(error);
-            setError('Erro ao enviar video.');
+            Toastify({
+                text: "Erro ao postar video! Tente novamente",
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                stopOnFocus: true,
+                style: {
+                  background: "red",
+                  color: "#fff",
+                },
+              }).showToast();
+              
         }
     };
 

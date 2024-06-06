@@ -94,10 +94,9 @@ export default function Portfolio() {
         setPerfil(response.data);
         console.log("Response", response.data);
         if (response.data.linkYtVideoId) {
-          // Extrair os links sem o prefixo "link:" e formatá-los como objetos JSON
           const extractedVideos = response.data.linkYtVideoId.map((video) => {
             const videoObj = JSON.parse(video); // Converter a string JSON em objeto JavaScript
-            return videoObj.link; // Extrair o link do objeto
+            return videoObj.link; 
           });
           setVideos(extractedVideos);
           console.log("Videos", extractedVideos);
