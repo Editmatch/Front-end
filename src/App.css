@@ -12,3 +12,11 @@
 .carousel-control-next-icon {
     background-color: #000; /* Defina a cor desejada para as setas */
 }
+
+.nav-styled {
+  color: #000 !important;
+}
+
+.nav-styled:hover {
+  background-color: #00000040 !important;
+}

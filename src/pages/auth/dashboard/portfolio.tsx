@@ -11,7 +11,8 @@ import { findAncestor } from "typescript";
 interface Perfil {
   editorId: number;
   nomeEditor: string;
-  photoProfileData: string | null;
+  photoProfileLink: string | null;
+  describe: string | null;
   title: string | null;
   valor: number;
   linkYtVideoId: string[];
@@ -21,7 +22,7 @@ export default function Portfolio() {
   const { apiUrl } = useEnvironment();
   const navigate = useNavigate();
   const { id } = useParams();
-  const [videos, setVideos] = useState<string[]>([]); 
+  const [videos, setVideos] = useState<string[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [newVideoUrl, setNewVideoUrl] = useState("");
   const [videoFile, setVideoFile] = useState<File | null>(null);
@@ -30,7 +31,8 @@ export default function Portfolio() {
   const [perfil, setPerfil] = useState<Perfil>({
     editorId: 0,
     nomeEditor: "",
-    photoProfileData: null,
+    photoProfileLink: null,
+    describe: null,
     title: null,
     valor: 0,
     linkYtVideoId: [],
@@ -96,7 +98,7 @@ export default function Portfolio() {
         if (response.data.linkYtVideoId) {
           const extractedVideos = response.data.linkYtVideoId.map((video) => {
             const videoObj = JSON.parse(video); // Converter a string JSON em objeto JavaScript
-            return videoObj.link; 
+            return videoObj.link;
           });
           setVideos(extractedVideos);
           console.log("Videos", extractedVideos);
@@ -109,8 +111,6 @@ export default function Portfolio() {
         navigate("/editores");
       });
   };
-  
-  
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -131,10 +131,12 @@ export default function Portfolio() {
     color: #000;
     text-decoration: none;
     margin: 10px;
+    padding: 10px;
     border-radius: 5px;
     transition: 0.3s;
     &:hover {
-      color: blue;
+      background-color: #000;
+      color: #fff;
     }
   `;
 
@@ -144,14 +146,6 @@ export default function Portfolio() {
     border-radius: 5px;
     margin: 10px;
     padding: 10px;
-  `;
-
-  const AnimatedCard = styled.div`
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    transition: 0.3s;
-    &:hover {
-      transform: 1.2;
-    }
   `;
 
   const Overflow = styled.div`
@@ -165,6 +159,9 @@ export default function Portfolio() {
     border-radius: 5px;
   `;
 
+  const defaultImage =
+    "https://static.vecteezy.com/system/resources/previews/007/409/979/original/people-icon-design-avatar-icon-person-icons-people-icons-are-set-in-trendy-flat-style-user-icon-set-vector.jpg";
+
   return (
     <div>
       {/* <Header /> */}
@@ -174,8 +171,13 @@ export default function Portfolio() {
           <div className="row mt-3 p-4">
             <div className="col-md-3">
               <Imagem
-                src="https://simg.nicepng.com/png/small/202-2022264_usuario-annimo-usuario-annimo-user-icon-png-transparent.png"
-                alt=""
+                className="mb-4"
+                src={
+                  perfil?.photoProfileLink
+                    ? perfil.photoProfileLink
+                    : defaultImage
+                }
+                alt="Foto da pessoa"
               />
             </div>
 
@@ -184,9 +186,7 @@ export default function Portfolio() {
               <span>Editor</span>
               <div className="row mt-5">
                 <span>
-                  Sou o melhor editor do Brasil, com mais de 10 anos de
-                  experiência. Trabalhei com grandes empresas e tenho um
-                  portfólio incrível. Contrate-me e veja a diferença!
+                 {perfil.describe ? perfil.describe : "Este editor ainda não colocou uma descrição"}
                 </span>
               </div>
             </div>
@@ -265,7 +265,7 @@ export default function Portfolio() {
             <div className="mb-3">
               <label htmlFor="">Título do video</label>
               <input
-                type="text" 
+                type="text"
                 className="form-control"
                 onChange={(event) => setTitle(event.target.value)}
                 required

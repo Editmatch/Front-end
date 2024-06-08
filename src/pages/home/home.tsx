@@ -5,6 +5,9 @@ import { Link } from 'react-router-dom';
 import backgroundImage from '../../ui/images/wallpaper.jpg'
 import logo from '../../../public/logo.png'
 import { Helmet } from 'react-helmet';
+import project_icon from '../../ui/images/project_icon.png'
+import project_editor from '../../ui/images/editor_icon.png'
+import project_safe_payment from '../../ui/images/safe_payment.png'
 
 
 const Fundo = styled.div`
@@ -50,6 +53,7 @@ const FundoContent = styled.div`
   z-index: 1; /* Colocando o conteúdo acima do pseudo-elemento */
 `;
 
+
 function Home() {
   return (
     <div>
@@ -89,7 +93,7 @@ function Home() {
 
           <div className="col-4 col-md-3 m-4">
             <div>
-              <img src="" alt="icone de projeto" />
+              <img src={project_icon} alt="icone de projeto" width={100}/>
             </div>
             <h4>Publique um projeto</h4>
             <p className='text-justify'>Publique a sua vaga para milhares de profissionais, você irá receber propostas de freelancers talentosos em poucos minutos.</p>
@@ -97,18 +101,18 @@ function Home() {
 
           <div className="col-4 col-md-3 m-4 mt-5 ">
             <div>
-              <img src="" alt="icone de projeto" />
+              <img src={project_editor} alt="icone de projeto" width={100} />
             </div>
             <h4>Contrate um editor</h4>
-            <p className='text-justify'>Reveja o historico de trabalho, feedback de clientes e portfolio para limitar os cadisdatos. Então faça uma entrevista pelo chat e escolha o melhor</p>
+            <p className='text-justify'>Reveja o historico de trabalho, veja os portfolios para limitar os candidatos.</p>
           </div>
 
           <div className="col-4 col-md-3 m-4">
             <div>
-              <img src="" alt="icone de projeto" />
+              <img src={project_safe_payment} alt="icone de projeto" width={100} />
             </div>
             <h4>Pague com segurança</h4>
-            <p className='text-justify'>Com o pagamento seguro do 99Freelas, o pagamento será repassado para o freelancer somente quando o projeto estiver concluido.</p>
+            <p className='text-justify'>Com o pagamento seguro do editmatch, o pagamento será repassado para o freelancer somente quando o projeto estiver concluido.</p>
           </div>
 
         </CenterDiv>

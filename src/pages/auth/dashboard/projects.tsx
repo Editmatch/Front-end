@@ -1,67 +1,32 @@
-import { useEffect, useState } from "react";
-import { Carousel, Row, Col, Spinner, Button, Modal } from "react-bootstrap";
+import React, { useState } from "react";
+import { Carousel, Row, Spinner, Button, Modal } from "react-bootstrap";
 import DashboardHeader from "../../../ui/components/dashboard-header";
 import styled from "styled-components";
-import axios from "axios";
-import { useEnvironment } from "../../../data/contexts/enviromentContext";
 import { Link } from "react-router-dom";
 import ProjectsCount from "../../../ui/components/projects-count";
 import Order from "../../../ui/components/order";
+import useProjects from "../../../data/useProjects"; 
+import ProjectCard from "../../../ui/components/ProjectCard";
 
-function Videos() {
-  const { apiUrl } = useEnvironment();
-  const CarouselContainer = styled.div`
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    width: 100%;
-  `;
+const CarouselContainer = styled.div`
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+`;
 
-  const [loading, setLoading] = useState(true);
-  const [inProgressOrders, setInProgressOrders] = useState([]);
-  const [completedOrders, setCompletedOrders] = useState([]);
-  const [cancelledOrders, setCancelledOrders] = useState([]);
-  const [availableOrders, setAvailableOrders] = useState([]);
+const LoadingMessage = styled.p`
+  text-align: center;
+  margin-top: 2rem;
+  color: #666666;
+`;
+
+function Projects() {
+  const userId = sessionStorage.getItem("userId");
+  const { loading, inProgressOrders, completedOrders, cancelledOrders, availableOrders } = useProjects(userId ?? "");
   const [showModal, setShowModal] = useState(false);
 
-  const userId = sessionStorage.getItem("userId");
-
-  const fetchProjects = () => {
-    setLoading(true);
-    axios
-      .get(`${apiUrl}/orders/order-client?id=${userId}`, {
-        headers: {
-          Authorization: `Bearer ${sessionStorage.getItem("authToken")}`,
-        },
-      })
-      .then((response) => {
-        const {
-          inProgressOrders,
-          completedOrders,
-          cancelledOrders,
-          availableOrders,
-        } = response.data;
-        setInProgressOrders(inProgressOrders || []);
-        setCompletedOrders(completedOrders || []);
-        setCancelledOrders(cancelledOrders || []);
-        setAvailableOrders(availableOrders || []);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
-
-  useEffect(() => {
-    fetchProjects();
-
-    const intervalId = setInterval(() => {
-      fetchProjects();
-    }, 10000);
-
-    return () => clearInterval(intervalId);
-  }, []);
+  const handleModalClose = () => setShowModal(false);
+  const handleModalShow = () => setShowModal(true);
 
   const chunkArray = (arr: any[], chunkSize: number): any[][] => {
     const chunkedArray: any[][] = [];
@@ -75,49 +40,6 @@ function Videos() {
   const completedChunks = chunkArray(completedOrders, 4);
   const cancelledChunks = chunkArray(cancelledOrders, 4);
   const availableChunks = chunkArray(availableOrders, 4);
-
-  const CardContainer = styled.div`
-    background-color: #ffffff;
-    border-radius: 5px;
-    box-shadow: 0 0px 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    margin-bottom: 20px;
-    transition: transform 0.2s ease-in;
-    &:hover {
-      transform: scale(1.03);
-    }
-  `;
-
-  const CardTitle = styled.h3`
-    color: #333333;
-    font-size: 18px;
-    margin-bottom: 10px;
-  `;
-
-  const CardDescription = styled.p`
-    color: #666666;
-    font-size: 14px;
-    margin-bottom: 10px;
-  `;
-
-  const CardSkills = styled.div`
-    color: #999999;
-    font-size: 12px;
-  `;
-
-  const LinkStyled = styled(Link)`
-    text-decoration: none;
-    color: black;
-  `;
-
-  const LoadingMessage = styled.p`
-    text-align: center;
-    margin-top: 2rem;
-    color: #666666;
-  `;
-
-  const handleModalClose = () => setShowModal(false);
-  const handleModalShow = () => setShowModal(true);
 
   return (
     <div>
@@ -153,31 +75,7 @@ function Videos() {
                         <Carousel.Item key={index}>
                           <Row>
                             {chunk.map((project) => (
-                              <Col md={3} key={project.orderId}>
-                                <LinkStyled
-                                  to={`/meu-pedido/${project.orderId}`}
-                                >
-                                  <div>
-                                    <CardContainer>
-                                      <CardTitle>{project.title}</CardTitle>
-                                      <CardDescription>
-                                        {project.description}
-                                      </CardDescription>
-                                      <CardSkills>
-                                        {project.skills
-                                          .split(",")
-                                          .map(
-                                            (skill: string, index: number) => (
-                                              <span key={index}>
-                                                {skill.trim()}
-                                              </span>
-                                            )
-                                          )}
-                                      </CardSkills>
-                                    </CardContainer>
-                                  </div>
-                                </LinkStyled>
-                              </Col>
+                              <ProjectCard key={project.orderId} project={project} />
                             ))}
                           </Row>
                         </Carousel.Item>
@@ -189,17 +87,14 @@ function Videos() {
             ) : (
               <div className="row mt-5">
                 <h5>
-                  <b>Projetos disponiveis</b>
+                  <b>Projetos disponíveis</b>
                 </h5>
                 <div className="col-md-12">
                   <div className="card">
                     <div className="card-body text-center">
                       <h5 className="card-title">Nenhum projeto encontrado</h5>
                       <p className="card-text">Não há projetos disponíveis</p>
-                      <Button
-                        onClick={handleModalShow}
-                        className="btn btn-dark"
-                      >
+                      <Button onClick={handleModalShow} className="btn btn-dark">
                         Publicar projeto
                       </Button>
                     </div>
@@ -212,7 +107,7 @@ function Videos() {
               <div className="row mt-5">
                 <div className="col-md-6">
                   <h5>
-                    <b>Projetos em disponiveis</b>
+                    <b>Projetos em andamento</b>
                   </h5>
                 </div>
                 <div className="col-md-6 d-flex justify-content-end">
@@ -227,31 +122,7 @@ function Videos() {
                         <Carousel.Item key={index}>
                           <Row>
                             {chunk.map((project) => (
-                              <Col md={3} key={project.orderId}>
-                                <LinkStyled
-                                  to={`/meu-pedido/${project.orderId}`}
-                                >
-                                  <div>
-                                    <CardContainer>
-                                      <CardTitle>{project.title}</CardTitle>
-                                      <CardDescription>
-                                        {project.description}
-                                      </CardDescription>
-                                      <CardSkills>
-                                        {project.skills
-                                          .split(",")
-                                          .map(
-                                            (skill: string, index: number) => (
-                                              <span key={index}>
-                                                {skill.trim()}
-                                              </span>
-                                            )
-                                          )}
-                                      </CardSkills>
-                                    </CardContainer>
-                                  </div>
-                                </LinkStyled>
-                              </Col>
+                              <ProjectCard key={project.orderId} project={project} />
                             ))}
                           </Row>
                         </Carousel.Item>
@@ -269,7 +140,7 @@ function Videos() {
                   <div className="card">
                     <div className="card-body text-center">
                       <h5 className="card-title">Nenhum projeto encontrado</h5>
-                        Aguarde até que um editor aceite seus projetos
+                      <p>Aguarde até que um editor aceite seus projetos</p>
                     </div>
                   </div>
                 </div>
@@ -288,31 +159,7 @@ function Videos() {
                         <Carousel.Item key={index}>
                           <Row>
                             {chunk.map((project) => (
-                              <Col md={3} key={project.orderId}>
-                                <LinkStyled
-                                  to={`/meu-pedido/${project.orderId}`}
-                                >
-                                  <div>
-                                    <CardContainer>
-                                      <CardTitle>{project.title}</CardTitle>
-                                      <CardDescription>
-                                        {project.description}
-                                      </CardDescription>
-                                      <CardSkills>
-                                        {project.skills
-                                          .split(",")
-                                          .map(
-                                            (skill: string, index: number) => (
-                                              <span key={index}>
-                                                {skill.trim()}
-                                              </span>
-                                            )
-                                          )}
-                                      </CardSkills>
-                                    </CardContainer>
-                                  </div>
-                                </LinkStyled>
-                              </Col>
+                              <ProjectCard key={project.orderId} project={project} />
                             ))}
                           </Row>
                         </Carousel.Item>
@@ -350,31 +197,7 @@ function Videos() {
                         <Carousel.Item key={index}>
                           <Row>
                             {chunk.map((project) => (
-                              <Col md={3} key={project.orderId}>
-                                <LinkStyled
-                                  to={`/meu-pedido/${project.orderId}`}
-                                >
-                                  <div>
-                                    <CardContainer>
-                                      <CardTitle>{project.title}</CardTitle>
-                                      <CardDescription>
-                                        {project.description}
-                                      </CardDescription>
-                                      <CardSkills>
-                                        {project.skills
-                                          .split(",")
-                                          .map(
-                                            (skill: string, index: number) => (
-                                              <span key={index}>
-                                                {skill.trim()}
-                                              </span>
-                                            )
-                                          )}
-                                      </CardSkills>
-                                    </CardContainer>
-                                  </div>
-                                </LinkStyled>
-                              </Col>
+                              <ProjectCard key={project.orderId} project={project} />
                             ))}
                           </Row>
                         </Carousel.Item>
@@ -415,4 +238,4 @@ function Videos() {
   );
 }
 
-export default Videos;
+export default Projects;
